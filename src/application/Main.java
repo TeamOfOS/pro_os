@@ -30,7 +30,7 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("操作系统");
-            //System.out.println("操作系统啊啊啊");
+            System.out.println("操作系统hhhh");
             primaryStage.show();
         } catch(Exception e) {
             e.printStackTrace();
