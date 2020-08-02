@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.contextController">
+   <children>
+      <AnchorPane fx:id="clock" layoutX="22.0" layoutY="36.0" prefHeight="285.0" prefWidth="151.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="32.0" layoutY="128.0" mnemonicParsing="false" text="id：clock" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="cpu" layoutX="180.0" layoutY="35.0" prefHeight="285.0" prefWidth="201.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="58.0" layoutY="128.0" mnemonicParsing="false" text="id:cpu" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="user" layoutX="391.0" layoutY="35.0" prefHeight="285.0" prefWidth="299.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="109.0" layoutY="128.0" mnemonicParsing="false" text="id:user" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="disk" layoutX="704.0" layoutY="35.0" prefHeight="285.0" prefWidth="466.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="199.0" layoutY="128.0" mnemonicParsing="false" text="id:disk" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="device" layoutX="22.0" layoutY="343.0" prefHeight="403.0" prefWidth="248.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="90.0" layoutY="187.0" mnemonicParsing="false" text="id:device" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="progress" layoutX="281.0" layoutY="343.0" prefHeight="403.0" prefWidth="409.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="170.0" layoutY="187.0" mnemonicParsing="false" text="id:progress" />
+         </children></AnchorPane>
+      <AnchorPane fx:id="memory" layoutX="704.0" layoutY="343.0" prefHeight="403.0" prefWidth="466.0" style="-fx-border-color: grey;">
+         <children>
+            <Button layoutX="199.0" layoutY="187.0" mnemonicParsing="false" text="id:memory" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
