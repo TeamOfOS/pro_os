@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="415.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditController">
+
+   <children>
+      <AnchorPane layoutX="-1.0" prefHeight="415.0" prefWidth="627.0">
+         <children>
+            <ScrollPane fx:id="scrollPane" layoutX="28.0" layoutY="67.0" prefHeight="281.0" prefWidth="571.0">
+               <content>
+                  <TextArea fx:id="contextArea" prefHeight="277.0" prefWidth="569.0" />
+               </content></ScrollPane>
+            <Button fx:id="saveBtn2" layoutX="529.0" layoutY="363.0" mnemonicParsing="false" onAction="#saveAction2" prefHeight="30.0" prefWidth="70.0" text="保存" />
+            <Text fx:id="textOfInfo" layoutX="28.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="文件名.t（可读可写，系统文件）">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="cancelBtn2" layoutX="432.0" layoutY="363.0" mnemonicParsing="false" onAction="#cancelAction2" prefHeight="30.0" prefWidth="70.0" text="取消" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

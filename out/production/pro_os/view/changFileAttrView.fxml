@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="242.0" prefWidth="387.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChangFileAttrController">
+   <children>
+      <AnchorPane layoutY="12.0" prefHeight="219.0" prefWidth="387.0">
+         <children>
+            <TextField fx:id="textOfFileName" layoutX="125.0" layoutY="30.0" />
+            <Text layoutX="65.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="文件名：" />
+            <Text layoutX="50.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="文件属性：" />
+            <Text layoutX="50.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="读写属性：" />
+            <ChoiceBox fx:id="choiceOfAttr" layoutX="125.0" layoutY="76.0" prefHeight="30.0" prefWidth="202.0" />
+            <ChoiceBox fx:id="choiceOfReadAttr" layoutX="125.0" layoutY="124.0" prefHeight="30.0" prefWidth="202.0" />
+            <Button fx:id="saveBtn" layoutX="258.0" layoutY="178.0" mnemonicParsing="false" onAction="#saveAction" prefHeight="30.0" prefWidth="67.0" text="保存" />
+            <Button fx:id="cancelBtn" layoutX="157.0" layoutY="178.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="30.0" prefWidth="67.0" text="取消" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

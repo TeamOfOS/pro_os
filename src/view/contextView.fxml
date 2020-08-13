@@ -8,7 +8,7 @@
    <children>
       <AnchorPane fx:id="clock" layoutX="22.0" layoutY="36.0" prefHeight="285.0" prefWidth="151.0" style="-fx-border-color: grey;">
          <children>
-            <Button layoutX="32.0" layoutY="128.0" mnemonicParsing="false" text="id：clock" />
+            <Button fx:id="startBtn" layoutX="32.0" layoutY="128.0" mnemonicParsing="false" onAction="#osSwitch" text="启动系统" />
          </children></AnchorPane>
       <AnchorPane fx:id="cpu" layoutX="180.0" layoutY="35.0" prefHeight="285.0" prefWidth="201.0" style="-fx-border-color: grey;">
          <children>
@@ -16,7 +16,34 @@
          </children></AnchorPane>
       <AnchorPane fx:id="user" layoutX="391.0" layoutY="35.0" prefHeight="285.0" prefWidth="299.0" style="-fx-border-color: grey;">
          <children>
-            <Button layoutX="109.0" layoutY="128.0" mnemonicParsing="false" text="id:user" />
+            <TreeView fx:id="directoryItemTreeView" layoutX="3.0" layoutY="4.0" prefHeight="275.0" prefWidth="288.0">
+               <contextMenu>
+                  <ContextMenu fx:id="fileM">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="删除" />
+                        <MenuItem mnemonicParsing="false" text="复制" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+               <contextMenu>
+                  <ContextMenu fx:id="rightMenu">
+                    <items>
+                        <Menu fx:id="create" mnemonicParsing="false" text="建立">
+                          <items>
+                            <MenuItem fx:id="createDir" mnemonicParsing="false" onAction="#createDir" text="目录" />
+                              <MenuItem fx:id="createTxt" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
+                              <MenuItem fx:id="createExe" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
+                          </items>
+                        </Menu>
+                      <MenuItem fx:id="del" mnemonicParsing="false" onAction="#del" text="删除" />
+                        <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="编辑" />
+                        <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copy" text="复制" />
+                        <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#paste" text="粘贴" />
+                        <MenuItem fx:id="run" mnemonicParsing="false" onAction="#run" text="运行" />
+                        <MenuItem fx:id="changeAttr" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu></TreeView>
          </children></AnchorPane>
       <AnchorPane fx:id="disk" layoutX="704.0" layoutY="35.0" prefHeight="285.0" prefWidth="466.0" style="-fx-border-color: grey;">
          <children>
