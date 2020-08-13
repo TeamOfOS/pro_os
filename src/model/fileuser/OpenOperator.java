@@ -53,6 +53,7 @@ public class OpenOperator {
                  String fName = "root/random/ex";
                  String attr = ".e";
                  DirectoryItem exeFile = new DirectoryItem(2,fName+'0'+i+attr,true,false,null);
+                 exeFile.setFileContext(createRandomContext());
                  //缺少生成随机文件内容的方法
                  //public
                  //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度包括内容也要写入磁盘
@@ -69,6 +70,52 @@ public class OpenOperator {
          return this.directoryItems;
      }
 
+     /*
+     随机生成系统执行文件文本内容
+      */
+    public String createRandomContext(){
+        String context = null;
+        String strEnd = "end";//str结束指令
+        String strX = "x";//str x变量
+        String strAdd = "+";//str +
+        String strReduce ="-";//str -
+        String strEnter = "\n";//str 回车
+        String strEx = "!";//str ！
+        String strEq = "=";//str =
+        String[] strDev = {"A","B","C"};//str A，B，C
+        int x = (int)(Math.random()*100)%92+8;//x变量
+        int choiceInstruction = 0;//选择x加减指令还是设备指令
+        int choiceBetweenAandR = 0;//选择加法还是减法
+        int choiceOfDev =0;//设备选择
+        int time =(int) (Math.random()*10);
+        context = strX+strEq+x+strEnter;//x=?指令
+        for (int i =0;i<8;i++){
+            choiceInstruction = (int)(Math.random()*10)%2;
+            if (choiceInstruction==0){
+                //加减法
+                choiceBetweenAandR = (int)(Math.random()*10)%2;
+                if (choiceBetweenAandR==0){
+                    //减法
+                    context +=strX+strReduce+strReduce+strEnter;
+                }
+                else {
+                    context +=strX+strAdd+strAdd+strEnter;
+                    //加法
+                }
+            }
+            else {
+                time =(int) (Math.random()*10);
+                choiceOfDev = (int)(Math.random()*10)%3;
+                String secDev = strDev[choiceOfDev];
+                context += strEx+secDev+time+strEnter;
+
+                //设备
+            }
+        }
+        context+=strEnd+strEnter;
+        return context;
+
+    }
     //菜单建立目录操作
     public boolean createDir(){
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
