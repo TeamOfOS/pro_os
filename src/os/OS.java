@@ -22,6 +22,7 @@ public class OS {
     public static Memory memory;//内存
     public static Clock clock;//时钟
     public static OS os;//os
+    public static volatile boolean launched;//系统资源开关，volatile修饰 不进行系统优化，即每次都必须在内存中进行存取launched而不能在cache中读取
     public static OpenOperator openOperator;//打开的操作
     public contextController contextcontroller;//主要控制界面
     public ChangFileAttrController changFileAttrController;//改变文件属性界面

@@ -37,6 +37,7 @@ public class Main extends Application {
             contextController.setOs(os);
             root.setCenter(contextView);
 
+
             //更改文件属性界面
             FXMLLoader loader2 = new FXMLLoader();
             loader2.setLocation(Main.class.getResource("/view/changFileAttrView.fxml"));
