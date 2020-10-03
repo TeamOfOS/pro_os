@@ -47,18 +47,27 @@ public class Clock implements Runnable {
                 return;
             }
 
-
         }
 
     }
 
+    /**
+     * 获取系统时间
+     * @return
+     */
+
     public long getSystemTime() {
+
         return systemTime;
     }
 
+    /**
+     * 获取剩余时间
+     * @return
+     */
     public long getRestTime() {
+
         return restTime;
     }
 
-    //不知道有没有合并成功
 }

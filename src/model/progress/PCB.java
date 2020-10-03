@@ -9,29 +9,31 @@ public class PCB {
     public static final int EVENT_USING_DEVICE=1;//阻塞设备中
     public static final int EVENT_NOTING=2;//无
     private static  int idGenerator =0;
-    //进程唯一标识符
-    private int PID;
-    //状态
-    private String status;
-    //优先级
-    private int priority;
-    //程序计数器，相对于memStart
-    private int counter;
+
+    private int PID;//进程唯一标识符
+
+    private String status;//状态
+
+    private int priority;//优先级
+
+    private int counter; //程序计数器，相对于memStart来说对的
+
     //寄存器数据
     private int AX;
     private int BX;
     private int CX;
     private int DX;
-    //指向进程的程序和数据在内存中的首地址
-    private int memStart;
-    //指向进程的程序和数据在内存中的尾地址
-    private int memEnd;
-    //事件
-    private int event;
+
+    private int memStart;//指向进程的程序和数据在内存中的首地址
+
+    private int memEnd;//指向进程的程序和数据在内存中的尾地址
+
+    private int event;  //事件
+
     public PCB(){
         idGenerator++;
         PID=idGenerator;
-        priority= (int) (Math.random()*10);
+        priority= (int) (Math.random()*10);//随机产生优先级
     }
 
     public int getPID() {
