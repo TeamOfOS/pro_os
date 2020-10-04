@@ -7,7 +7,7 @@ import java.util.Queue;
 
 public class Memory {
 
-    private byte[] userArea; //用户区内存
+    private String[] userArea; //用户区内存
 
     private List<SubArea> subAreas;//内存分配数组
 
@@ -19,7 +19,7 @@ public class Memory {
 
     private PCB hangOutPCB; //闲逛进程（就绪队列为空时运行闲逛进程）
 
-    public byte[] getUserArea() {
+    public String[] getUserArea() {
         return userArea;
     }
 
