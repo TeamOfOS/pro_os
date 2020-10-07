@@ -7,10 +7,12 @@ public class FreeBlock {
     private int startIndex;//起址
     private int endIndex;//终址
     private int length;//长度
+    private int processId;//占用该空闲块的进程id
 
     FreeBlock(int startIndex, int length) {
         this.startIndex = startIndex;
         this.length = length;
+        this.endIndex = startIndex+length;
     }
 
     int getStartIndex() {
@@ -22,7 +24,7 @@ public class FreeBlock {
     }
 
     int getEndIndex(){
-        return startIndex+length;
+        return endIndex;
     }
 
     void setStartIndex(int startIndex) {

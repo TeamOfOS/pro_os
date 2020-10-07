@@ -1,22 +1,25 @@
 package model.memory;
 
+/**
+ * 分区
+ */
 public class SubArea {
 
     public  static final int STATUS_FREE=0;//分区空闲
     public  static final int STATUS_BUSY=1;//分区被使用
 
-    private int startAdd;//分区开始地址
+    private int startIndex;//分区开始地址
     private int size;//分区大小
     private int status;//分区当前状态
     private int taskNumber;//作业号
 
 
     public int getStartAdd() {
-        return startAdd;
+        return startIndex;
     }
 
     public void setStartAdd(int startAdd) {
-        this.startAdd = startAdd;
+        this.startIndex = startAdd;
     }
 
     public int getSize() {
