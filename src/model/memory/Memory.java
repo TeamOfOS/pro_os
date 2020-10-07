@@ -32,7 +32,7 @@ public class Memory {
     }
 
     public void init(){
-        Arrays.fill(userArea,0);
+        Arrays.fill(userArea,String.valueOf(0));
         waitPCB.removeAll(waitPCB);
         blockPCB.removeAll(blockPCB);
         subAreas.removeAll(subAreas);
