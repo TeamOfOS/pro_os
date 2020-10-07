@@ -1,13 +1,12 @@
 package model.memory;
 import model.progress.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Queue;
+import java.util.*;
+
 
 public class Memory {
     public static final int PCB_MAX_COUNT = 10;//内存中容纳的最大PCB数
+    public static final int USERAREA_MAX_SIZE = 512;
 
     private String[] userArea; //模拟用户区内存的字节存储情况
 
@@ -21,7 +20,31 @@ public class Memory {
 
     private PCB hangOutPCB; //闲逛进程（就绪队列为空时运行闲逛进程）
 
+    public Memory(){
+        subAreas = Collections.synchronizedList(new LinkedList<>());
+        waitPCB = new LinkedList<>();
+        blockPCB = new LinkedList<>();
+        hangOutPCB = new PCB();
+        userArea = new String[USERAREA_MAX_SIZE];
+        //内存参数初始化
+       init();
 
+    }
+
+    public void init(){
+        Arrays.fill(userArea,0);
+        waitPCB.removeAll(waitPCB);
+        blockPCB.removeAll(blockPCB);
+        subAreas.removeAll(subAreas);
+        hangOutPCB.setStatus(PCB.STATUS_RUN);
+        runningPCB=hangOutPCB;
+        SubArea subArea = new SubArea();
+        subArea.setSize(USERAREA_MAX_SIZE);
+        subArea.setStartAdd(0);
+        subArea.setStatus(SubArea.STATUS_FREE);
+        subAreas.add(subArea);
+
+    }
     /**
      * 给进程分配内存
      * @param program
