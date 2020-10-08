@@ -139,8 +139,9 @@ public class CPU implements Runnable {
     public void destroy() {
         PCB pcb = memory.getRunningPCB();
         System.out.println("进程" + pcb.getPID() + "运行结束,撤销进程");
+        memory.release(pcb);
         /*回收进程所占内存*/
-        SubArea subArea = null;
+        /*SubArea subArea = null;
         List<SubArea> subAreas = memory.getSubAreas();
         for (SubArea s : subAreas) {
             if (s.getTaskNumber() == pcb.getPID()) {//找到那个进程
@@ -168,7 +169,7 @@ public class CPU implements Runnable {
                 nextSubArea.setStartAdd(subArea.getStartAdd());
                 subAreas.remove(subArea);
             }
-        }
+        }*/
 
 
     }
