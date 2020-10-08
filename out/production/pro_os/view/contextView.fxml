@@ -14,28 +14,31 @@
          </children></AnchorPane>
       <AnchorPane fx:id="cpu" layoutX="181.0" layoutY="69.0" prefHeight="285.0" prefWidth="237.0">
          <children>
-            <TreeView fx:id="directoryItemTreeView1" layoutY="-2.0" prefHeight="287.0" prefWidth="233.0">
+            <TreeView fx:id="directoryItemTreeView" layoutY="-2.0" prefHeight="287.0" prefWidth="233.0">
                <contextMenu>
                   <ContextMenu fx:id="rightMenu1">
                      <items>
-                        <Menu fx:id="create1" mnemonicParsing="false" text="建立">
+                        <Menu fx:id="create" mnemonicParsing="false" text="建立">
                            <items>
                               <MenuItem fx:id="createDir1" mnemonicParsing="false" onAction="#createDir" text="目录" />
                               <MenuItem fx:id="createTxt1" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
                               <MenuItem fx:id="createExe1" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
                            </items>
                         </Menu>
-                        <MenuItem fx:id="del1" mnemonicParsing="false" onAction="#del" text="删除" />
-                        <MenuItem fx:id="edit1" mnemonicParsing="false" onAction="#edit" text="编辑" />
-                        <MenuItem fx:id="copy1" mnemonicParsing="false" onAction="#copy" text="复制" />
-                        <MenuItem fx:id="paste1" mnemonicParsing="false" onAction="#paste" text="粘贴" />
-                        <MenuItem fx:id="run1" mnemonicParsing="false" onAction="#run" text="运行" />
-                        <MenuItem fx:id="changeAttr1" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
+                        <MenuItem fx:id="del" mnemonicParsing="false" onAction="#del" text="删除" />
+                        <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="编辑" />
+                        <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copy" text="复制" />
+                        <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#paste" text="粘贴" />
+                        <MenuItem fx:id="run" mnemonicParsing="false" onAction="#run" text="运行" />
+                        <MenuItem fx:id="changeAttr" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
                      </items>
                   </ContextMenu>
                </contextMenu>
             </TreeView>
-            <TitledPane animated="false" layoutY="-3.0" prefHeight="285.0" prefWidth="248.0" text="进程执行过程">
+         </children></AnchorPane>
+      <AnchorPane fx:id="user" layoutX="408.0" layoutY="69.0" prefHeight="285.0" prefWidth="290.0">
+         <children>
+            <TitledPane animated="false" layoutX="24.0" layoutY="2.0" prefHeight="285.0" prefWidth="248.0" text="进程执行过程">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
                      <children>
@@ -45,9 +48,10 @@
                </content>
             </TitledPane>
          </children></AnchorPane>
-      <AnchorPane fx:id="user" layoutX="408.0" layoutY="69.0" prefHeight="285.0" prefWidth="290.0">
+      <AnchorPane fx:id="disk" layoutX="704.0" layoutY="69.0" prefHeight="285.0" prefWidth="466.0" style="-fx-border-color: grey;">
          <children>
-            <TitledPane animated="false" layoutX="17.0" layoutY="-2.0" prefHeight="285.0" prefWidth="256.0" text="进程执行结果">
+            <Button layoutX="199.0" layoutY="128.0" mnemonicParsing="false" text="id:disk" />
+            <TitledPane animated="false" layoutX="-14.0" layoutY="2.0" prefHeight="285.0" prefWidth="256.0" text="进程执行结果">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
                      <children>
@@ -57,10 +61,6 @@
                   </AnchorPane>
                </content>
             </TitledPane>
-         </children></AnchorPane>
-      <AnchorPane fx:id="disk" layoutX="704.0" layoutY="69.0" prefHeight="285.0" prefWidth="466.0" style="-fx-border-color: grey;">
-         <children>
-            <Button layoutX="199.0" layoutY="128.0" mnemonicParsing="false" text="id:disk" />
          </children></AnchorPane>
       <AnchorPane fx:id="device" layoutX="22.0" layoutY="387.0" prefHeight="403.0" prefWidth="248.0" style="-fx-border-color: grey;">
          <children>
@@ -102,7 +102,7 @@
             </Pane>
             <Pane prefHeight="47.0" prefWidth="75.0">
                <children>
-                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false"  prefHeight="33.0" prefWidth="70.0" text="启动系统" />
+                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="70.0" text="启动系统" />
                </children>
             </Pane>
          </children>

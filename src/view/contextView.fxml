@@ -8,34 +8,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="911.0" prefWidth="1287.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.contextController">
    <children>
-      <AnchorPane fx:id="clock" layoutX="22.0" layoutY="69.0" prefHeight="285.0" prefWidth="151.0" style="-fx-border-color: grey;">
+      <AnchorPane fx:id="cpu" layoutX="28.0" layoutY="67.0" prefHeight="290.0" prefWidth="221.0">
          <children>
-            <Button fx:id="startBtn" layoutX="32.0" layoutY="128.0" mnemonicParsing="false" onAction="#osSwitch" text="启动系统" />
+            <AnchorPane fx:id="disk" layoutY="1.0" prefHeight="289.0" prefWidth="221.0" style="-fx-border-color: grey;">
+               <children>
+                  <Button layoutX="78.0" layoutY="115.0" mnemonicParsing="false" text="id:disk" />
+               </children>
+            </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane fx:id="cpu" layoutX="181.0" layoutY="69.0" prefHeight="285.0" prefWidth="237.0">
+      <AnchorPane fx:id="user" layoutX="270.0" layoutY="69.0" prefHeight="285.0" prefWidth="290.0">
          <children>
-            <TreeView fx:id="directoryItemTreeView1" layoutY="-2.0" prefHeight="287.0" prefWidth="233.0">
-               <contextMenu>
-                  <ContextMenu fx:id="rightMenu1">
-                     <items>
-                        <Menu fx:id="create1" mnemonicParsing="false" text="建立">
-                           <items>
-                              <MenuItem fx:id="createDir1" mnemonicParsing="false" onAction="#createDir" text="目录" />
-                              <MenuItem fx:id="createTxt1" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
-                              <MenuItem fx:id="createExe1" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
-                           </items>
-                        </Menu>
-                        <MenuItem fx:id="del1" mnemonicParsing="false" onAction="#del" text="删除" />
-                        <MenuItem fx:id="edit1" mnemonicParsing="false" onAction="#edit" text="编辑" />
-                        <MenuItem fx:id="copy1" mnemonicParsing="false" onAction="#copy" text="复制" />
-                        <MenuItem fx:id="paste1" mnemonicParsing="false" onAction="#paste" text="粘贴" />
-                        <MenuItem fx:id="run1" mnemonicParsing="false" onAction="#run" text="运行" />
-                        <MenuItem fx:id="changeAttr1" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
-                     </items>
-                  </ContextMenu>
-               </contextMenu>
-            </TreeView>
-            <TitledPane animated="false" layoutY="-3.0" prefHeight="285.0" prefWidth="248.0" text="进程执行过程">
+            <TitledPane animated="false" layoutX="14.0" layoutY="1.0" prefHeight="285.0" prefWidth="248.0" text="进程执行过程">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
                      <children>
@@ -44,23 +27,6 @@
                   </AnchorPane>
                </content>
             </TitledPane>
-         </children></AnchorPane>
-      <AnchorPane fx:id="user" layoutX="408.0" layoutY="69.0" prefHeight="285.0" prefWidth="290.0">
-         <children>
-            <TitledPane animated="false" layoutX="17.0" layoutY="-2.0" prefHeight="285.0" prefWidth="256.0" text="进程执行结果">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
-                     <children>
-                        <TextArea fx:id="processResultView" editable="false" layoutX="44.0" layoutY="52.0" prefHeight="153.0" prefWidth="200.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="40.0" />
-                        <TextArea fx:id="processResultView" editable="false" layoutX="19.0" layoutY="22.0" prefHeight="207.0" prefWidth="200.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-         </children></AnchorPane>
-      <AnchorPane fx:id="disk" layoutX="704.0" layoutY="69.0" prefHeight="285.0" prefWidth="466.0" style="-fx-border-color: grey;">
-         <children>
-            <Button layoutX="199.0" layoutY="128.0" mnemonicParsing="false" text="id:disk" />
          </children></AnchorPane>
       <AnchorPane fx:id="device" layoutX="22.0" layoutY="387.0" prefHeight="403.0" prefWidth="248.0" style="-fx-border-color: grey;">
          <children>
@@ -77,7 +43,7 @@
                </columns>
             </TableView>
          </children></AnchorPane>
-      <AnchorPane fx:id="memory" layoutX="704.0" layoutY="395.0" prefHeight="403.0" prefWidth="466.0" style="-fx-border-color: grey;">
+      <AnchorPane fx:id="memory" layoutX="780.0" layoutY="387.0" prefHeight="403.0" prefWidth="466.0" style="-fx-border-color: grey;">
          <children>
             <Button layoutX="199.0" layoutY="187.0" mnemonicParsing="false" text="id:memory" />
          </children></AnchorPane>
@@ -102,10 +68,46 @@
             </Pane>
             <Pane prefHeight="47.0" prefWidth="75.0">
                <children>
-                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false"  prefHeight="33.0" prefWidth="70.0" text="启动系统" />
+                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="70.0" text="启动系统" />
                </children>
             </Pane>
          </children>
       </HBox>
+      <TitledPane animated="false" layoutX="548.0" layoutY="71.0" prefHeight="285.0" prefWidth="256.0" text="进程执行结果">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
+               <children>
+                  <TextArea fx:id="processResultView" editable="false" layoutX="44.0" layoutY="52.0" prefHeight="153.0" prefWidth="200.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="40.0" />
+                  <TextArea fx:id="processResultView" editable="false" layoutX="19.0" layoutY="22.0" prefHeight="207.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TreeView fx:id="directoryItemTreeView" layoutX="821.0" layoutY="70.0" prefHeight="287.0" prefWidth="233.0">
+         <contextMenu>
+            <ContextMenu fx:id="rightMenu1">
+               <items>
+                  <Menu fx:id="create" mnemonicParsing="false" text="建立">
+                     <items>
+                        <MenuItem fx:id="createDir1" mnemonicParsing="false" onAction="#createDir" text="目录" />
+                        <MenuItem fx:id="createTxt1" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
+                        <MenuItem fx:id="createExe1" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
+                     </items>
+                  </Menu>
+                  <MenuItem fx:id="del" mnemonicParsing="false" onAction="#del" text="删除" />
+                  <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="编辑" />
+                  <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copy" text="复制" />
+                  <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#paste" text="粘贴" />
+                  <MenuItem fx:id="run" mnemonicParsing="false" onAction="#run" text="运行" />
+                  <MenuItem fx:id="changeAttr" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
+               </items>
+            </ContextMenu>
+         </contextMenu>
+      </TreeView>
+      <AnchorPane fx:id="clock" layoutX="1095.0" layoutY="71.0" prefHeight="285.0" prefWidth="151.0" style="-fx-border-color: grey;">
+         <children>
+            <Button fx:id="startBtn" layoutX="32.0" layoutY="128.0" mnemonicParsing="false" onAction="#osSwitch" text="启动系统" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
