@@ -46,11 +46,31 @@ public class OS {
         }
     }
 
+    public void init() throws Exception {
+        cpu.init();
+        memory.init();
+        clock.init();
+        //fileOperator.init();
+    }
+
+
     private OS() throws Exception {
     }
 
     public static synchronized  OS getInstance( ) throws Exception {
         return os;
+    }
+
+    public void start() throws Exception {
+        //TODO
+        init();
+        new Thread(cpu).start();
+        new Thread(clock).start();
+
+    }
+
+    public void close() {
+        launched = false;
     }
 
 

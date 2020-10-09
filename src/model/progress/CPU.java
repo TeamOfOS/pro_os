@@ -28,6 +28,7 @@ public class CPU implements Runnable {
     private int DR;
     private int SR;
     private String result = "NOP";
+    private String  temp="NOP";
 
 
     private Memory memory;
@@ -192,21 +193,21 @@ public class CPU implements Runnable {
     /**
      * 执行与写回
      */
-    public char execute() {
-        result = "NOP";
+    public String execute() {
+        result = "hangdOutProcess......";
         if (IR[0] == 'e' && IR[1] == 'n' && IR[2] == 'd') {
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
             dispatch();
+            temp += "end";
             result += "end";
-            return '&';
+            return result;
         } else if (IR[0] == '!') {
             try {
                 result += "!" + IR[1] + IR[2];
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
-                String temp="null";
-                temp+=IR[1]+IR[2];
+                temp+="申请"+IR[1]+IR[2]+".....";
                 deviceRequest.setDeviceName(temp);
                 deviceRequest.setWorkTime((int)(Math.random()*5000));
                 deviceRequest.setPcb(memory.getRunningPCB());
@@ -219,33 +220,30 @@ public class CPU implements Runnable {
                 e.printStackTrace();
 
             }
-            return '&';
+            return result;
         } else if (IR[1] == '=') {
-            result += "x=" + IR[2];
-            String temp = null;
-            temp += IR[2];
+            result += "x=" + IR[2]+"（赋值操作）";
+            temp += "x="+IR[2];
             String rest = String.valueOf(IR[2]);
             AX = Integer.parseInt(rest);
-            return IR[0];
+            return result;
         } else if (IR[1] == '+') {
-            result += "x+" + IR[2];
-            String temp = null;
             String rest = String.valueOf(IR[2]);
             int c = Integer.parseInt(rest);
             AX = AX + c;
-            temp += AX;
-            return IR[0];
+            temp += "x="+ AX;
+            result += "x+" + IR[2];
+            return result;
 
         } else if (IR[1] == '-') {
-            result += "x-" + IR[2];
-            String temp = null;
             String rest = String.valueOf(IR[2]);
             int c = Integer.parseInt(rest);
             AX = AX - c;
-            temp += AX;
-            return IR[0];
+            temp +=  "x="+AX;
+            result += "x-" + IR[2];
+            return result;
         }
-        return 'N';
+        return "the instruction is false";
     }
 
 
@@ -278,4 +276,23 @@ public class CPU implements Runnable {
 
         }
     }
+
+    public String getResultOfProcess() {
+        String ResultOfProcess;
+        lock.lock();
+        ResultOfProcess=temp;
+        lock.unlock();
+        return ResultOfProcess;
+    }
+
+    public String getInstuction(){
+
+        String instuction;
+        lock.lock();
+        instuction=result;
+        lock.unlock();
+        return instuction;
+
+    }
+
 }

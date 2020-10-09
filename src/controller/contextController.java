@@ -1,21 +1,30 @@
 package controller;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.fileuser.DirectoryItem;
+import model.progress.Clock;
+import model.progress.PCB;
 import os.OS;
+import ui.PCBVo;
 import ui.UIResources;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -64,12 +73,31 @@ public class contextController implements Initializable {
 	@FXML
 	private MenuItem createExe;//建立执行文件菜单选项
 
+	@FXML
+	private Text systemTimeTxt;
+	@FXML
+	private Text timesliceTxt;
+	@FXML
+	private TextArea processRunningView;
+	@FXML
+	private TextArea processResultView;
+	@FXML
+	private TableView<PCBVo> pcbQueueView;
+	@FXML
+	private TableColumn pidCol;
+	@FXML
+	private TableColumn statusCol;
+	@FXML
+	private TableColumn priorityCol;
+
+
 	private Alert alert;//警告提示
 	private DirectoryItem copyItem = new DirectoryItem();//复制项目
 	private static int dirNum = 0;//命名目录数字
 	private static int txtNum = 0;//命名普通文件数字
 	private static int exeNum = 0;//命名执行文件数字
 	private OS os;
+	private UpdateUIThread updateUIThread;
 
 
 	//构造方法
@@ -81,11 +109,103 @@ public class contextController implements Initializable {
 	/*----------------点击启动系统按钮的操作-------------------*/
 	/*-------------------响应用户请求------------------------*/
 	public void osSwitch() throws Exception {
-		System.out.println("相应了吗");
-		initDirectoryItemTree();
-		addRightMenu(this.directoryItemTreeView);
-		System.out.println("相应了吗2");
+
+		if (!os.launched) {
+			launchOS();
+			startBtn.setText("关闭系统");
+			System.out.println("相应了吗");
+			addRightMenu(this.directoryItemTreeView);
+			System.out.println("相应了吗2");
+		}else{
+			closeOs();
+			startBtn.setText("启动系统");
+		}
+
 	}
+	/**
+	 * 启动系统
+	 */
+	public void launchOS() throws Exception {
+		os.launched = true;
+		os.start();
+		initComponent();
+		new Thread(updateUIThread).start();
+	}
+	/**
+	 * 关闭系统
+	 */
+	public void closeOs(){
+		os.launched = false;
+		os.close();
+
+	}
+
+	/**
+	 * 实时更新正在要执行进程的信息
+	 * 00和qiuyu 应该也会用到这个 在这里面加就好 （from csy）
+ 	 */
+
+	private class UpdateUIThread implements Runnable {
+		@Override
+		public void run() {
+			while (os.launched) {
+				try {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+
+							//更新进程执行过程视图
+							contextController.this.processRunningView.appendText(os.cpu.getInstuction()+ "\n");
+							contextController.this.processResultView.appendText(os.cpu.getResultOfProcess()+"\n");
+							//更新系统时钟视图
+							contextController.this.systemTimeTxt.setText(OS.clock.getSystemTime() + "");
+							//更新时间片视图
+							contextController.this.timesliceTxt.setText(OS.clock.getRestTime() + "");
+							//更新进程队列视图
+							List<PCB> pcbs = os.memory.getAllPCB();
+							List<PCBVo> pcbVos = new ArrayList<>(pcbs.size());
+							for (PCB pcb : pcbs) {
+								PCBVo pcbVo = new PCBVo(pcb);
+								pcbVos.add(pcbVo);
+							}
+							ObservableList<PCBVo> datas = FXCollections.observableList(pcbVos);
+							pcbQueueView.setItems(datas);
+
+						}
+					});
+
+
+					Thread.sleep(Clock.TIMESLICE_UNIT);
+				} catch (InterruptedException e) {
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * 初始化进程队列视图
+	 */
+	public void initPcbQueueView() {
+		pidCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
+		statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+		priorityCol.setCellValueFactory(new PropertyValueFactory<>("priority"));
+	}
+
+	/*
+	将输出进程的队列的模块初始化
+	这里面 00和qiuyu  应该也用得到 写完初始化方法往里面加就可
+	 */
+
+	public void initComponent() throws Exception {
+		processRunningView.setText("");
+		processResultView.setText("");
+		//初始化进程队列视图
+		initPcbQueueView();
+		initDirectoryItemTree();//我把芳芳的移到这里了  初始化直接调用这个方法
+		//可添加初始化磁盘分配等代码 （00和qiuyu）
+	}
+
 
 	/*
 	treeView的节点增加右键菜单
