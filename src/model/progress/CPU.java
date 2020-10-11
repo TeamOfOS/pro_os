@@ -251,7 +251,7 @@ public class CPU implements Runnable {
 
     @Override
     public void run() {
-        //这边可能由有点小bug 看到时候最后的运行的调试吧
+        //这边可能由有点小bug 看到时候最后的运行的调试
         while (OS.launched) {
             try {
                 Thread.sleep(Clock.TIMESLICE_UNIT);
