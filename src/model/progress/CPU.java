@@ -195,6 +195,7 @@ public class CPU implements Runnable {
      */
     public String execute() {
         result = "hangdOutProcess......";
+        PSW=CPU.NORMAL_INTERMIT;
         if (IR[0] == 'e' && IR[1] == 'n' && IR[2] == 'd') {
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
@@ -250,6 +251,7 @@ public class CPU implements Runnable {
 
     @Override
     public void run() {
+        //这边可能由有点小bug 看到时候最后的运行的调试吧
         while (OS.launched) {
             try {
                 Thread.sleep(Clock.TIMESLICE_UNIT);
@@ -266,7 +268,6 @@ public class CPU implements Runnable {
             try {
                 fetchInstruction();//取指
                 execute();//执行
-                //  System.out.println("就绪队列队头进程："+memory.getWaitPCB().peek().getPID());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
