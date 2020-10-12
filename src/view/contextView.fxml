@@ -102,10 +102,18 @@
             </Pane>
             <Pane prefHeight="47.0" prefWidth="75.0">
                <children>
-                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false"  prefHeight="33.0" prefWidth="70.0" text="启动系统" />
+                  <Button fx:id="startBtn1" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="70.0" text="启动系统" />
                </children>
             </Pane>
          </children>
       </HBox>
+      <Pane fx:id="userArea" layoutX="1191.0" layoutY="286.0" prefHeight="512.0" prefWidth="70.0" />
+      <Label layoutX="1214.0" layoutY="97.0" prefHeight="20.0" prefWidth="25.0" text="用" />
+      <Label layoutX="1215.0" layoutY="123.0" prefHeight="20.0" prefWidth="25.0" text="户" />
+      <Label layoutX="1214.0" layoutY="149.0" prefHeight="20.0" prefWidth="25.0" text="区" />
+      <Label layoutX="1214.0" layoutY="178.0" prefHeight="20.0" prefWidth="25.0" text="内" />
+      <Label layoutX="1214.0" layoutY="202.0" prefHeight="20.0" prefWidth="25.0" text="存" />
+      <Label layoutX="1214.0" layoutY="228.0" prefHeight="20.0" prefWidth="25.0" text="情" />
+      <Label layoutX="1214.0" layoutY="256.0" prefHeight="20.0" prefWidth="25.0" text="况" />
    </children>
 </AnchorPane>
