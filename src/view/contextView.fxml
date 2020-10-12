@@ -42,10 +42,6 @@
                </columns>
             </TableView>
          </children></AnchorPane>
-      <AnchorPane fx:id="memory" layoutX="780.0" layoutY="387.0" prefHeight="403.0" prefWidth="466.0" style="-fx-border-color: grey;">
-         <children>
-            <Button layoutX="199.0" layoutY="187.0" mnemonicParsing="false" text="id:memory" />
-         </children></AnchorPane>
       <HBox layoutX="22.0" layoutY="14.0" prefHeight="47.0" prefWidth="600.0">
          <children>
             <Label>
@@ -103,5 +99,7 @@
             </ContextMenu>
          </contextMenu>
       </TreeView>
+      <TextArea layoutX="738.0" layoutY="387.0" prefHeight="400.0" prefWidth="320.0" text="                      用户区内存情况" />
+      <VBox fx:id="userAreaView" layoutX="738.0" layoutY="428.0" prefHeight="358.0" prefWidth="320.0" />
    </children>
 </AnchorPane>
