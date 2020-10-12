@@ -7,6 +7,7 @@ import controller.EditController;
 import controller.contextController;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
+import os.OS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class OpenOperator {
      构造方法初始化
       */
     public OpenOperator(){
+
     }
 
      /*
@@ -54,8 +56,6 @@ public class OpenOperator {
                  String attr = ".e";
                  DirectoryItem exeFile = new DirectoryItem(2,fName+'0'+i+attr,true,false,null);
                  exeFile.setFileContext(createRandomContext());
-                 //缺少生成随机文件内容的方法
-                 //public
                  //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度包括内容也要写入磁盘
                  //public void writeDisk(DirectoryItem root);
                  directoryItems.add(exeFile);
@@ -124,7 +124,7 @@ public class OpenOperator {
         String actPath = path+'/'+fileName;
         DirectoryItem newDir = new DirectoryItem(0,actPath,false,false,null);
         newDir.setLengthOfFile(0);
-        //写入磁盘，修改磁盘号和磁盘长度
+        //写入磁盘，修改磁盘号和磁盘长度和内容
         if (true)//此处为写入磁盘是否成功，写入磁盘方法
         {
             directoryItems.add(newDir);

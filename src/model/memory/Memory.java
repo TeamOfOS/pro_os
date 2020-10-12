@@ -51,7 +51,7 @@ public class Memory {
      * @return 返回进程所占用的分区
      * @throws Exception
      */
-    public SubArea allocate(byte[] program) throws Exception {
+    public SubArea allocate(String[] program ,Memory memory) throws Exception {
         //检查内存中PCB数量，最多容纳10个PCB
         if(getAllPCB().size() >= PCB_MAX_COUNT){
             throw new Exception("当前运行进程过多！");
@@ -91,6 +91,13 @@ public class Memory {
         for(int i = subArea.getStartAdd(),j=0;j<program.length;i++,j++){
             userArea[i] = String.valueOf(program[j]);
         }
+        System.out.println("创建的进程ID"+pcb.getPID());
+        //初始化进程控制块
+        pcb.setMemStart(subArea.getStartAdd());
+        pcb.setMemEnd(program.length);
+        pcb.setCounter(subArea.getStartAdd());
+        pcb.setStatus(PCB.STATUS_WAIT);
+        memory.getWaitPCB().offer(pcb);//进程就绪
 
         return subArea;
     }

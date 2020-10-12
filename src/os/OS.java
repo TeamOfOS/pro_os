@@ -29,6 +29,8 @@ public class OS {
     public ChangeDirAttrController changeDirAttrController;//改变目录属性界面
     public EditController editController;//打开编辑界面
 
+    public static final int PROCESS_MAX=10;//最大进程数
+
     static {
         try {
 
@@ -44,11 +46,31 @@ public class OS {
         }
     }
 
+    public void init() throws Exception {
+        cpu.init();
+        memory.init();
+        clock.init();
+        //fileOperator.init();
+    }
+
+
     private OS() throws Exception {
     }
 
     public static synchronized  OS getInstance( ) throws Exception {
         return os;
+    }
+
+    public void start() throws Exception {
+        //TODO
+        init();
+        new Thread(cpu).start();
+        new Thread(clock).start();
+
+    }
+
+    public void close() {
+        launched = false;
     }
 
 
