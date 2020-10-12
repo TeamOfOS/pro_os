@@ -13,10 +13,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.fileuser.DirectoryItem;
+import model.memory.SubArea;
 import model.progress.Clock;
 import model.progress.PCB;
 import os.OS;
@@ -89,6 +92,8 @@ public class contextController implements Initializable {
 	private TableColumn statusCol;
 	@FXML
 	private TableColumn priorityCol;
+	@FXML
+    private VBox userAreaView;
 
 
 	private Alert alert;//警告提示
@@ -171,6 +176,21 @@ public class contextController implements Initializable {
 							ObservableList<PCBVo> datas = FXCollections.observableList(pcbVos);
 							pcbQueueView.setItems(datas);
 
+							//更新用户区内存视图
+                            userAreaView.getChildren().removeAll(userAreaView.getChildren());
+                            System.out.println("更新内存区");
+                            List<SubArea> subAreas = os.memory.getSubAreas();
+                            for(SubArea subArea:subAreas){
+                                Pane pane = new Pane();
+                                pane.setPrefWidth(320);
+                                pane.setPrefHeight(358*subArea.getSize()/512);
+                                if(subArea.getStatus()==SubArea.STATUS_BUSY){
+                                    pane.setStyle("-fx-background-color: grey;");
+                                }else{
+                                    pane.setStyle("-fx-background-color: green;");
+                                }
+                                userAreaView.getChildren().add(pane);
+                            }
 						}
 					});
 
