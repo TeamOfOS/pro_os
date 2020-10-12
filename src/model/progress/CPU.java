@@ -28,6 +28,7 @@ public class CPU implements Runnable {
     private int DR;
     private int SR;
     private String result = "NOP";
+    private String  temp="NOP";
 
 
     private Memory memory;
@@ -139,8 +140,9 @@ public class CPU implements Runnable {
     public void destroy() {
         PCB pcb = memory.getRunningPCB();
         System.out.println("进程" + pcb.getPID() + "运行结束,撤销进程");
+        memory.release(pcb);
         /*回收进程所占内存*/
-        SubArea subArea = null;
+        /*SubArea subArea = null;
         List<SubArea> subAreas = memory.getSubAreas();
         for (SubArea s : subAreas) {
             if (s.getTaskNumber() == pcb.getPID()) {//找到那个进程
@@ -168,7 +170,7 @@ public class CPU implements Runnable {
                 nextSubArea.setStartAdd(subArea.getStartAdd());
                 subAreas.remove(subArea);
             }
-        }
+        }*/
 
 
     }
@@ -191,21 +193,22 @@ public class CPU implements Runnable {
     /**
      * 执行与写回
      */
-    public char execute() {
-        result = "NOP";
+    public String execute() {
+        result = "hangdOutProcess......";
+        PSW=CPU.NORMAL_INTERMIT;
         if (IR[0] == 'e' && IR[1] == 'n' && IR[2] == 'd') {
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
             dispatch();
+            temp += "end";
             result += "end";
-            return '&';
+            return result;
         } else if (IR[0] == '!') {
             try {
                 result += "!" + IR[1] + IR[2];
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
-                String temp="null";
-                temp+=IR[1]+IR[2];
+                temp+="申请"+IR[1]+IR[2]+".....";
                 deviceRequest.setDeviceName(temp);
                 deviceRequest.setWorkTime((int)(Math.random()*5000));
                 deviceRequest.setPcb(memory.getRunningPCB());
@@ -218,39 +221,37 @@ public class CPU implements Runnable {
                 e.printStackTrace();
 
             }
-            return '&';
+            return result;
         } else if (IR[1] == '=') {
-            result += "x=" + IR[2];
-            String temp = null;
-            temp += IR[2];
+            result += "x=" + IR[2]+"（赋值操作）";
+            temp += "x="+IR[2];
             String rest = String.valueOf(IR[2]);
             AX = Integer.parseInt(rest);
-            return IR[0];
+            return result;
         } else if (IR[1] == '+') {
-            result += "x+" + IR[2];
-            String temp = null;
             String rest = String.valueOf(IR[2]);
             int c = Integer.parseInt(rest);
             AX = AX + c;
-            temp += AX;
-            return IR[0];
+            temp += "x="+ AX;
+            result += "x+" + IR[2];
+            return result;
 
         } else if (IR[1] == '-') {
-            result += "x-" + IR[2];
-            String temp = null;
             String rest = String.valueOf(IR[2]);
             int c = Integer.parseInt(rest);
             AX = AX - c;
-            temp += AX;
-            return IR[0];
+            temp +=  "x="+AX;
+            result += "x-" + IR[2];
+            return result;
         }
-        return 'N';
+        return "the instruction is false";
     }
 
 
 
     @Override
     public void run() {
+        //这边可能由有点小bug 看到时候最后的运行的调试
         while (OS.launched) {
             try {
                 Thread.sleep(Clock.TIMESLICE_UNIT);
@@ -267,7 +268,6 @@ public class CPU implements Runnable {
             try {
                 fetchInstruction();//取指
                 execute();//执行
-                //  System.out.println("就绪队列队头进程："+memory.getWaitPCB().peek().getPID());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -277,4 +277,23 @@ public class CPU implements Runnable {
 
         }
     }
+
+    public String getResultOfProcess() {
+        String ResultOfProcess;
+        lock.lock();
+        ResultOfProcess=temp;
+        lock.unlock();
+        return ResultOfProcess;
+    }
+
+    public String getInstuction(){
+
+        String instuction;
+        lock.lock();
+        instuction=result;
+        lock.unlock();
+        return instuction;
+
+    }
+
 }
