@@ -39,6 +39,7 @@ public class Clock implements Runnable {
                     //时间片到了
                     if (restTime == 0) {
                         cpu.lock.lock();
+                        cpu.PSW=cpu.TIME_INTERMIT;
                         cpu.Ready();//运行转就绪
                         cpu.dispatch();//就绪转运行
                         cpu.lock.unlock();
