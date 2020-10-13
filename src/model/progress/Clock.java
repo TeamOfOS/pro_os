@@ -32,8 +32,6 @@ public class Clock implements Runnable {
         synchronized(this) {
             while (OS.launched) {
                 //这边可能由有点小bug 看到时候最后的运行的调试。。
-                try {
-                    Thread.sleep(TIMESLICE_UNIT);
                     systemTime += TIMESLICE_UNIT / 1000;
                     restTime = (restTime + TIMESLICE_LENGTH - TIMESLICE_UNIT / 1000) % TIMESLICE_LENGTH;
                     //时间片到了
@@ -45,9 +43,6 @@ public class Clock implements Runnable {
                         cpu.lock.unlock();
                     }
 
-                } catch (InterruptedException e) {
-                    return;
-                }
 
             }
         }
