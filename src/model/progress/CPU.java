@@ -274,6 +274,11 @@ public class CPU implements Runnable {
                 lock.unlock();
             }
 
+            if(CPU.PSW==CPU.EQUIP_INTERMIT) return ;
+
+            if(OS.clock.getRestTime()==0&&CPU.PSW!=CPU.NORMAL_INTERMIT)
+                CPU.PSW=CPU.TIME_INTERMIT;
+
 
         }
     }

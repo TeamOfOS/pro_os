@@ -29,24 +29,27 @@ public class Clock implements Runnable {
 
     @Override
     public void run() {
-        while(OS.launched) {
-            //这边可能由有点小bug 看到时候最后的运行的调试吧
-            try {
-                Thread.sleep(TIMESLICE_UNIT);
-                systemTime+=TIMESLICE_UNIT/1000;
-                restTime=(restTime+TIMESLICE_LENGTH-TIMESLICE_UNIT/1000)%TIMESLICE_LENGTH;
-                //时间片到了
-                if (restTime==0){
-                    cpu.lock.lock();
-                    cpu.Ready();//运行转就绪
-                    cpu.dispatch();//就绪转运行
-                    cpu.lock.unlock();
+        synchronized(this) {
+            while (OS.launched) {
+                //这边可能由有点小bug 看到时候最后的运行的调试。。
+                try {
+                    Thread.sleep(TIMESLICE_UNIT);
+                    systemTime += TIMESLICE_UNIT / 1000;
+                    restTime = (restTime + TIMESLICE_LENGTH - TIMESLICE_UNIT / 1000) % TIMESLICE_LENGTH;
+                    //时间片到了
+                    if (restTime == 0) {
+                        cpu.lock.lock();
+                        cpu.PSW=cpu.TIME_INTERMIT;
+                        cpu.Ready();//运行转就绪
+                        cpu.dispatch();//就绪转运行
+                        cpu.lock.unlock();
+                    }
+
+                } catch (InterruptedException e) {
+                    return;
                 }
 
-            } catch (InterruptedException e) {
-                return;
             }
-
         }
 
     }
