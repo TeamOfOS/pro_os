@@ -274,7 +274,6 @@ public class CPU implements Runnable {
                 lock.unlock();
             }
 
-
         }
     }
 
