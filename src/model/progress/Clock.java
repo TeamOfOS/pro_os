@@ -31,7 +31,7 @@ public class Clock implements Runnable {
     public void run() {
         synchronized(this) {
             while (OS.launched) {
-                //这边可能由有点小bug 看到时候最后的运行的调试
+                //这边可能由有点小bug 看到时候最后的运行的调试。。
                 try {
                     Thread.sleep(TIMESLICE_UNIT);
                     systemTime += TIMESLICE_UNIT / 1000;
