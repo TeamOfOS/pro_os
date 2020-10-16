@@ -301,4 +301,8 @@ public class CPU implements Runnable {
 
     }
 
+    public DeviceManager getDeviceManager() {
+        return deviceManager;
+    }
+
 }
