@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.fileuser.OpenOperator;
 import os.OS;
 
 
@@ -32,9 +33,11 @@ public class Main extends Application {
             loader1.setLocation(Main.class.getResource("/view/contextView.fxml"));
             AnchorPane contextView = (AnchorPane) loader1.load();
             contextController contextController = loader1.getController();
+            OpenOperator openOperator = new OpenOperator();
             OS os = OS.getInstance();
             os.setContextcontroller(contextController);
             contextController.setOs(os);
+            openOperator.setOs(os);
             root.setCenter(contextView);
 
 

@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import os.OS;
 
+import java.io.IOException;
+
 /*
 该类是在更改目录属性时打开界面的控制类
  */
@@ -35,15 +37,22 @@ public class ChangeDirAttrController {
     //取消按钮操作
     public void cancelAction1(){
         dirAttrStage.hide();
-
-
     }
 
     //保存按钮操作
-    public void saveAction1(){
+    public void saveAction1() throws IOException {
 
-        if(!os.openOperator.saveDirAttr()){
+        int nameRe = os.openOperator.saveDirAttr();
+        if(nameRe ==-1){
             alert.setContentText("在同一文件夹中，命名重复");
+            alert.show();
+        }
+        else if (nameRe ==-2){
+            alert.setContentText("命名过长不可使用");
+            alert.show();
+        }
+        else if (nameRe ==-3){
+            alert.setContentText("未找到相应文件");
             alert.show();
         }
         else {

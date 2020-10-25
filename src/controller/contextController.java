@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.prism.paint.Color;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,12 +14,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.disk.Disk;
 import model.fileuser.DirectoryItem;
+import model.fileuser.OpenOperator;
 import model.memory.SubArea;
 import model.progress.Clock;
 import model.progress.PCB;
@@ -28,12 +32,14 @@ import ui.PCBVo;
 import ui.DeviceVo;
 import ui.UIResources;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+
 
 /*
 该类是主要内容界面的控制器类
@@ -112,6 +118,8 @@ public class contextController implements Initializable {
 	@FXML
 	private TableColumn usingDevicePIDCol;
 
+	@FXML
+	private GridPane fatView;//磁盘视图
 
 	private Alert alert;//警告提示
 	private DirectoryItem copyItem = new DirectoryItem();//复制项目
@@ -119,24 +127,36 @@ public class contextController implements Initializable {
 	private static int txtNum = 0;//命名普通文件数字
 	private static int exeNum = 0;//命名执行文件数字
 	private OS os;
+	private Disk diskM;
 	private UpdateUIThread updateUIThread;
+
 
 
 	//构造方法
 	public contextController() throws Exception{
 		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setHeaderText(null);
+		diskM = os.disk;
 	}
+
 
 	/*----------------点击启动系统按钮的操作-------------------*/
 	/*-------------------响应用户请求------------------------*/
 	public void osSwitch() throws Exception {
 
+
 		if (!os.launched) {
+
+
+
+				initComponent();
+			addRightMenu(this.directoryItemTreeView);
+
 			launchOS();
 			startBtn.setText("关闭系统");
+
 			System.out.println("相应了吗");
-			addRightMenu(this.directoryItemTreeView);
+
 			System.out.println("相应了吗2");
 		}else{
 			closeOs();
@@ -149,17 +169,17 @@ public class contextController implements Initializable {
 	 */
 	public void launchOS() throws Exception {
 		os.launched = true;
-		os.start();
-		initComponent();
-		new Thread(updateUIThread).start();
+		//os.start();
+
+		//new Thread(updateUIThread).start();
 	}
 	/**
 	 * 关闭系统
 	 */
-	public void closeOs(){
+	public void closeOs() throws IOException {
 		os.launched = false;
 		os.close();
-
+		diskM.clearDisk();
 	}
 
 	/**
@@ -278,7 +298,7 @@ public class contextController implements Initializable {
 				 node.setOnMouseClicked(e->{
 					 if(e.getButton()== MouseButton.PRIMARY){
 						 System.out.println("按下鼠标左键");
-							 rightMenu.hide();
+							 //rightMenu.hide();
 
 					 }
 				 });
@@ -309,7 +329,8 @@ public class contextController implements Initializable {
 	/*
 	构建目录树方法
 	 */
-	public void initDirectoryItemTree(){
+	public void initDirectoryItemTree() throws IOException {
+
 
 		List<DirectoryItem> dirItems = OS.openOperator.createDirectoryItems();
 		DirectoryItem root = dirItems.get(0);
@@ -317,13 +338,43 @@ public class contextController implements Initializable {
 		DirectoryItem random = dirItems.get(1);
 		TreeItem<DirectoryItem> randomTreeItem = new TreeItem(random);
 		directoryItemTreeView.setRoot(rootTreeItem);
+		//缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度
+		diskM.createOp(rootTreeItem);
+		System.out.println("根节点磁盘号："+rootTreeItem.getValue().getNumOfStartDisk());
+		//System.out.println("文本："+rootTreeItem.getValue().getFileContext());
+		//diskM.eidtOp(rootTreeItem,rootTreeItem.getValue().getFileContext());
+		//updateFatView();
 		for(DirectoryItem t:dirItems){
 
 			if(!t.equals(root)&&t.equals(random)){
-				addTreeItem(root,t);
+				if (diskM.isCreateOp(t,rootTreeItem)){
+
+					addTreeItem(root,t);
+					TreeItem<DirectoryItem> tItem = findTreeItem(rootTreeItem,t);
+					diskM.createOp(tItem);
+					//diskM.eidtOp(tItem,tItem.getValue().getFileContext());
+				}
+				else{
+					System.out.println("不可以创建");
+				}
+
 			}
 			else if(!t.equals(root)&&!t.equals(random)){
-				addTreeItem(random,t);
+
+				if (diskM.isCreateOp(t,randomTreeItem)){
+
+					addTreeItem(random,t);
+
+					TreeItem<DirectoryItem> tItem = findTreeItem(rootTreeItem,t);
+					diskM.createOp(tItem);
+					diskM.eidtOp(tItem,tItem.getValue().getFileContext());
+				}
+				else{
+					System.out.println("不可以创建");
+				}
+
+
+
 			}
 			else {
 
@@ -453,20 +504,25 @@ public class contextController implements Initializable {
 		int num =0;
 		boolean isEq = false;
     if(type ==0){
-    	strType = "dir";
+    	strType = "d";
     	num = dirNum;
 	}
     else if(type==1){
-    	strType = "text";
+    	strType = "t";
     	num = txtNum;
 
 	}
     else if (type==2){
-    	strType = "ex";
+    	strType = "e";
     	num = exeNum;
 
 	}
-    actNewName = strType+'0'+num;
+    if(num>=10){
+		actNewName = strType+num;
+	}
+    else{
+		actNewName = strType+'0'+num;
+	}
     TreeItem<DirectoryItem> parentItem;
     parentItem = findTreeItem(directoryItemTreeView.getRoot(),parent);
     List<TreeItem<DirectoryItem>> childrenList =  parentItem.getChildren();
@@ -484,7 +540,12 @@ public class contextController implements Initializable {
 			}
 		if(isEq){
 			num++;
-			actNewName = strType+'0'+num;
+			if(num>=10){
+				actNewName = strType+num;
+			}
+			else{
+				actNewName = strType+'0'+num;
+			}
 		}
 		else {
 			flag = false;
@@ -501,7 +562,7 @@ public class contextController implements Initializable {
 
 
 	//菜单建立目录操作
-	public void createDir(){
+	public void createDir() throws IOException {
 	if(!os.openOperator.createDir()){
 		alert.setTitle("错误提示");
 		alert.setHeaderText(null);
@@ -511,7 +572,7 @@ public class contextController implements Initializable {
 	}
 
 	//菜单建立普通文本操作
-	public void createTxt(){
+	public void createTxt() throws IOException {
 		if(!os.openOperator.createTxt()){
 			alert.setTitle("错误提示");
 			alert.setHeaderText(null);
@@ -521,7 +582,7 @@ public class contextController implements Initializable {
 	}
 
 	//菜单建立执行文件操作
-	public void createExe(){
+	public void createExe() throws IOException {
 		if(!os.openOperator.createExe()){
 			alert.setTitle("错误提示");
 			alert.setHeaderText(null);
@@ -532,7 +593,7 @@ public class contextController implements Initializable {
 
 	//菜单删除操作
 	//0表示正确，1表示目录为非空目录删除失败，2表示修改磁盘失败,3表示是系统文件不可以删除
-	public void del(){
+	public void del() throws IOException {
 		switch (os.openOperator.del()){
 			case 0:break;
 			case 1:	alert.setHeaderText(null);alert.setContentText("该目录为非空目录，不可删除！");
@@ -552,11 +613,13 @@ public class contextController implements Initializable {
 
 	//菜单粘贴操作
 	//返回0正确，1没有复制，2写入磁盘失败
-	public void paste(){
+	public void paste() throws IOException {
 		switch (os.openOperator.paste()){
 			case 0:break;
 			case 1:alert.setContentText("没有复制文件");alert.show();break;
 			case 2:alert.setContentText("未知磁盘原因，粘贴失败");alert.show();break;
+			case -1:alert.setContentText("所在目录不够位置");alert.show();break;
+			case -2:alert.setContentText("空间不足！");alert.show();break;
 		}
 	}
 
@@ -574,6 +637,24 @@ public class contextController implements Initializable {
 	//菜单更改属性操作
 	public void changeAttr(){
 		os.openOperator.changeAttr();
+	}
+
+
+	/*
+	更新磁盘使用情况
+	 */
+	public void updateFatView() throws IOException{
+	byte[] fat = os.disk.getFat();
+	for(int i=0;i<128;i++){
+		Pane pane = (Pane)fatView.getChildren().get(i);
+		if(fat[i]!=0){
+			pane.setStyle("-fx-background-color: red;-fx-border-color: #EEEEBB");
+
+		}
+		else {
+			pane.setStyle("-fx-background-color:blue;-fx-border-color: #EEEEBB");
+		}
+	}
 	}
 
 

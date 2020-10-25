@@ -7,8 +7,10 @@ import controller.EditController;
 import controller.contextController;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
+import model.disk.Disk;
 import os.OS;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +23,13 @@ public class OpenOperator {
      private ChangFileAttrController changFileAttrController;
      private ChangeDirAttrController changeDirAttrController;//改变目录属性界面
      private EditController editController;//打开编辑界面
-
+     private Disk disk;
+     private OS os;
      /*
      构造方法初始化
       */
     public OpenOperator(){
-
+        disk = os.disk;
     }
 
      /*
@@ -42,31 +45,30 @@ public class OpenOperator {
              //如果目录项列表为空
 
              //生成一个根目录
-              root = new DirectoryItem(0,"root",true,false,null);
-               //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度
-               //public void writeDisk(DirectoryItem root);
+              root = new DirectoryItem(0,"rt",true,false,null,null);
+              //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度
+
              //生成一个包含随机执行文件的目录
-             DirectoryItem randomFile = new DirectoryItem(0,"root/random",true,false,null);
+             DirectoryItem randomFile = new DirectoryItem(0,"rt/exe",true,false,null,null);
                //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度
                //public void writeDisk(DirectoryItem root);
              directoryItems.add(root);
              directoryItems.add(randomFile);
-             for(int i=0;i<10;i++){//生成10个随机文件
-                 String fName = "root/random/ex";
+
+
+             for(int i=0;i<7;i++){//生成7个随机文件
+                 String fName = "rt/exe/e";
                  String attr = ".e";
-                 DirectoryItem exeFile = new DirectoryItem(2,fName+'0'+i+attr,true,false,null);
+                 DirectoryItem exeFile = new DirectoryItem(2,fName+'0'+i+attr,true,false,null,null);
                  exeFile.setFileContext(createRandomContext());
                  //缺少写入磁盘方法，写入一个目录项并修改它的起始盘号和文件长度包括内容也要写入磁盘
                  //public void writeDisk(DirectoryItem root);
                  directoryItems.add(exeFile);
-
-
              }
          }
          else{
-             //不为空，有了根目录和随机文件目录以及10个随机文件
+             //不为空，有了根目录和随机文件目录以及7个随机文件
          }
-
          return this.directoryItems;
      }
 
@@ -117,77 +119,113 @@ public class OpenOperator {
 
     }
     //菜单建立目录操作
-    public boolean createDir(){
+    public boolean createDir() throws IOException {
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         String path = contextControllers.getNeedPath(sec);
         String fileName = contextControllers.getCreateName(sec.getValue(),0);
         String actPath = path+'/'+fileName;
-        DirectoryItem newDir = new DirectoryItem(0,actPath,false,false,null);
-        newDir.setLengthOfFile(0);
+        DirectoryItem newDir = new DirectoryItem(0,actPath,false,false,null,null);
+        newDir.setLengthOfFile(1);
         //写入磁盘，修改磁盘号和磁盘长度和内容
-        if (true)//此处为写入磁盘是否成功，写入磁盘方法
-        {
+       // if (disk.isCreateOp(newDir,sec))//此处为写入磁盘是否成功，写入磁盘方法
             directoryItems.add(newDir);
             if (sec.getValue().isDirectory()) {
-                contextControllers.addTreeItem(sec.getValue(),newDir);
+                if (disk.isCreateOp(newDir,sec)){
+                    contextControllers.addTreeItem(sec.getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec,newDir);
+                    disk.createOp(newItem);
+                }
+                else {
+                    return false;
+                }
             }
             else{
-                contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
+                if (disk.isCreateOp(newDir,sec.getParent())){
+                    contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec.getParent(),newDir);
+                    disk.createOp(newItem);
+                }
+                else {
+                    return false;
+                }
             }
-        }
-        else {
-          return false;
-        }
+
+disk.printDisk();
         return true;
     }
 
 
     //菜单建立普通文本操作
-    public boolean createTxt(){
+    public boolean createTxt() throws IOException {
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         String path = contextControllers.getNeedPath(sec);
         String fileName = contextControllers.getCreateName(sec.getValue(),1);
         String actPath = path+'/'+fileName+".t";
-        DirectoryItem newDir = new DirectoryItem(1,actPath,false,false,null);
+        DirectoryItem newDir = new DirectoryItem(1,actPath,false,false,null,null);
         //写入磁盘，修改磁盘号和磁盘长度
-        if (true)//此处为写入磁盘是否成功，写入磁盘方法
-        {
+       //if (disk.isCreateOp(newDir,sec))//此处为写入磁盘是否成功，写入磁盘方法
             directoryItems.add(newDir);
             if (sec.getValue().isDirectory()) {
-                contextControllers.addTreeItem(sec.getValue(),newDir);
-            }
-            else{
-                contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
-            }
-        }
-        else {
+                if (disk.isCreateOp(newDir,sec)){
+                    contextControllers.addTreeItem(sec.getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec,newDir);
+                    disk.createOp(newItem);
+                }
+                        else {
             return false;
         }
+
+            }
+            else{
+                if (disk.isCreateOp(newDir,sec.getParent())){
+                    contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec.getParent(),newDir);
+                    disk.createOp(newItem);
+                }
+
+            else{
+                return false;
+                }
+
+            }
+        disk.printDisk();
         return true;
     }
 
 
     //菜单建立执行文件操作
-    public boolean createExe(){
+    public boolean createExe() throws IOException {
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         String path = contextControllers.getNeedPath(sec);
         String fileName = contextControllers.getCreateName(sec.getValue(),2);
         String actPath = path+'/'+fileName+".e";
-        DirectoryItem newDir = new DirectoryItem(2,actPath,false,false,null);
+        DirectoryItem newDir = new DirectoryItem(2,actPath,false,false,null,null);
         //写入磁盘，修改磁盘号和磁盘长度
-        if (true)//此处为写入磁盘是否成功，写入磁盘方法
-        {
+        //if (disk.isCreateOp(newDir,sec))//此处为写入磁盘是否成功，写入磁盘方法
+        //{
             directoryItems.add(newDir);
             if (sec.getValue().isDirectory()) {
-                contextControllers.addTreeItem(sec.getValue(),newDir);
+                if (disk.isCreateOp(newDir,sec)){
+                    contextControllers.addTreeItem(sec.getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec,newDir);
+                    disk.createOp(newItem);
+                }
+                else{
+                    return false;
+                }
+
             }
             else{
-                contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
+                if(disk.isCreateOp(newDir,sec.getParent())){
+                    contextControllers.addTreeItem(sec.getParent().getValue(),newDir);
+                    TreeItem<DirectoryItem> newItem = contextControllers.findTreeItem(sec.getParent(),newDir);
+                    disk.createOp(newItem);
+                }
+                else{
+                    return false;
+                }
             }
-        }
-        else {
-            return false;
-        }
+        disk.printDisk();
         return true;
     }
 
@@ -199,6 +237,7 @@ public class OpenOperator {
          String strOfOnlyRead = "只读";
          String strOfRAndW = "可读可写";
          String strOfReadAttr = null;
+         String copyStr = "复制文件，复制来源：";
          String fileName = sec.getValue().getactFileName();
          String strOfAttr = null;
          String info = null;
@@ -224,22 +263,29 @@ public class OpenOperator {
          }
          editController.getTextOfInfo().setText(info);
         editController.getContextArea().setText(sec.getValue().getFileContext());
+        if (sec.getValue().getCopyFromStr()!=null){
+            editController.getCopyStr().setText(copyStr+sec.getValue().getCopyFromStr());
+        }
+        else {
+            editController.getCopyStr().setText(null);
+        }
         editController.getEditStage().show();
     }
 
 
     //菜单删除操作
     //0表示正确，1表示目录为非空目录删除失败，2表示修改磁盘失败,3表示是系统文件不可以删除
-    public int del(){
+    public int del() throws IOException {
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         if(sec.getValue().isSystemFile()){
             return 3;
         }
         if(sec.getValue().getTypeOfFile()==0){
             if(sec.getChildren().isEmpty()){
-                    if(true){
+                    if(disk.delOp(sec)){
                         //在磁盘中删去选中节点，方法缺失
                         delNode(sec);
+                        disk.printDisk();
                         return 0;
                     }
                     else {
@@ -252,9 +298,10 @@ public class OpenOperator {
             }
         }
         else{
-            if(true){
+            if(disk.delOp(sec)){
                 //在磁盘中删去选中节点，方法缺失
                 delNode(sec);
+                disk.printDisk();
                 return 0;
             }
             else{
@@ -294,7 +341,7 @@ public class OpenOperator {
 
     //菜单粘贴操作
     //返回0正确，1没有复制，2写入磁盘失败
-    public int paste(){
+    public int paste() throws IOException {
         DirectoryItem copyItem = contextControllers.getCopyItem();
         if(copyItem.getTypeOfFile()==-1){
             return 1;
@@ -302,23 +349,32 @@ public class OpenOperator {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
          TreeItem<DirectoryItem> copyTreeItem = contextControllers.findTreeItem(contextControllers.getDirectoryItemTreeView().getRoot(),copyItem);
          int num = 1;
-         String newName = copyItem.getactFileName()+"-("+num+")";
+         //String newName = copyItem.getactFileName()+"-("+num+")";
+        int type = copyItem.getTypeOfFile();
+        String newName;
+        if (sec.getValue().isDirectory()){
+            newName = contextControllers.getCreateName(sec.getValue(),type);
+        }
+        else{
+           newName = contextControllers.getCreateName(sec.getParent().getValue(),type);
+        }
+
          String pastePath = contextControllers.getNeedPath(sec);
          String pasteAttr =null;
          switch (copyItem.getTypeOfFile()){
              case 1:pasteAttr = ".t";
              case 2:pasteAttr = ".e";
          }
-        List<TreeItem<DirectoryItem>> childrenItems =new ArrayList<>();
-         switch (sec.getValue().getTypeOfFile()){
-             case 0:childrenItems = sec.getChildren();break;
-             case 1:childrenItems = sec.getParent().getChildren();break;
-             case 2:childrenItems = sec.getParent().getChildren();break;
-         }
+//        List<TreeItem<DirectoryItem>> childrenItems =new ArrayList<>();
+//         switch (sec.getValue().getTypeOfFile()){
+//             case 0:childrenItems = sec.getChildren();break;
+//             case 1:childrenItems = sec.getParent().getChildren();break;
+//             case 2:childrenItems = sec.getParent().getChildren();break;
+//         }
 
-         boolean flag = true;
-         boolean isEq = false;
-         while (flag){
+/*         boolean flag = true;
+         boolean isEq = false;*/
+ /*        while (flag){
              isEq = false;
              for(TreeItem<DirectoryItem> t:childrenItems){
                  if(t.getValue().getactFileName().equals(newName)){
@@ -333,29 +389,57 @@ public class OpenOperator {
              else {
                  flag = false;
              }
-         }
+         }*/
          System.out.println(newName);
-         DirectoryItem pasteItem = new DirectoryItem(copyItem.getTypeOfFile(),pastePath+'/'+newName+pasteAttr,false,copyItem.isOnlyRead(),copyItem.getFileContext());
+         DirectoryItem pasteItem = new DirectoryItem(copyItem.getTypeOfFile(),pastePath+'/'+newName+pasteAttr,false,copyItem.isOnlyRead(),copyItem.getFileContext(),copyItem.getactFileName());
         System.out.println(pasteItem.getFileName());
         System.out.println(pasteItem.getactFileName());
          pasteItem.setLengthOfFile(copyItem.getLengthOfFile());
 
          //写入磁盘中
-         if(true){
+        // if(disk.pasteOp(copyItem,sec)){
              if(sec.getValue().getTypeOfFile()==0){
-                 contextControllers.addTreeItem(sec.getValue(),pasteItem);
-                 directoryItems.add(pasteItem);
-             }
-             else if(sec.getValue().getTypeOfFile()==1||sec.getValue().getTypeOfFile()==2){
-                 contextControllers.addTreeItem(sec.getParent().getValue(),pasteItem);
-                 directoryItems.add(pasteItem);
+                 int nameRe = disk.pasteOp(copyItem,sec);
+                 if (nameRe==1){
+                     contextControllers.addTreeItem(sec.getValue(),pasteItem);
+                     directoryItems.add(pasteItem);
+                     TreeItem<DirectoryItem> t= contextControllers.findTreeItem(sec.getParent(),pasteItem);
+                     disk.createOp(t);
+                     disk.eidtOp(t,t.getValue().getFileContext());
+                 }
+                 else if(nameRe==-1){
+                    return -1;
+                 }
+                 else if (nameRe==-2){
+                    return -2;
+                 }
 
              }
-         }
-         else {
-             return 2;//写入磁盘失败
-         }
+             else if(sec.getValue().getTypeOfFile()==1||sec.getValue().getTypeOfFile()==2){
+                 int nameRe = disk.pasteOp(copyItem,sec.getParent());
+                 if (nameRe ==-1){
+                     return -1;
+                 }
+                 else if (nameRe==-2){
+                     return -2;
+                 }
+                 else if (nameRe ==1)
+                 {
+                     contextControllers.addTreeItem(sec.getParent().getValue(),pasteItem);
+                     directoryItems.add(pasteItem);
+                    TreeItem<DirectoryItem> t= contextControllers.findTreeItem(sec.getParent(),pasteItem);
+                     disk.createOp(t);
+                     disk.eidtOp(t,t.getValue().getFileContext());
+                 }
+                else {
+                    return 2;
+                 }
+
+             }
+
         contextControllers.setCopyItem(new DirectoryItem());
+             editController.getCopyStr().setText("复制文件，复制来源："+copyItem.getFileName());
+        disk.printDisk();
          return 0;
     }
 
@@ -404,7 +488,7 @@ public class OpenOperator {
     }
 
     //保存更改文件属性界面内容操作
-    public boolean saveFileAttr(){
+    public int saveFileAttr() throws IOException {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
          DirectoryItem item = sec.getValue();
          List<TreeItem<DirectoryItem>> secChildren = sec.getParent().getChildren();
@@ -412,7 +496,7 @@ public class OpenOperator {
              if ((d.getValue().getTypeOfFile()==1&&changFileAttrController.isTxt())||(d.getValue().getTypeOfFile()==2&&!changFileAttrController.isTxt())){
                  if(d.getValue().getactFileName().equals(changFileAttrController.getSecFileName())){
                      System.out.println("有重复命名失败");
-                     return false;
+                     return 0;
                  }
              }
 
@@ -428,16 +512,42 @@ public class OpenOperator {
             }
         }
          if(sec.getValue().getTypeOfFile()==2||sec.getValue().getTypeOfFile()==1){
-             sec.getValue().setOnlyRead(changFileAttrController.isOnlyRead());
+
              if (changFileAttrController.isTxt()){
+                 //修改磁盘方法
+                 int numRe = 0;
+                 numRe = disk.changeAttrOp(sec,changFileAttrController.getSecFileName(),changFileAttrController.isOnlyRead(),1);
+                 if ( numRe==1){
+                     return 1;
+                 }
+                 else if (numRe==2){
+                     return 2;
+                 }
+                else {
+                    System.out.println("修改成功！");
+                 }
                  sec.getValue().setTypeOfFile(1);
                  sec.getValue().changeFileName(1,changFileAttrController.getSecFileName());
-                 //修改磁盘方法
+                 sec.getValue().setOnlyRead(changFileAttrController.isOnlyRead());
+
              }
              else {
+
+                 //修改磁盘方法
+                 int numRe = 0;
+                 numRe = disk.changeAttrOp(sec,changFileAttrController.getSecFileName(),changFileAttrController.isOnlyRead(),2);
+                 if ( numRe==1){
+                     return 1;
+                 }
+                 else if (numRe==2){
+                     return 2;
+                 }
+                 else {
+                     System.out.println("修改成功！");
+                 }
                  sec.getValue().setTypeOfFile(2);
                  sec.getValue().changeFileName(2,changFileAttrController.getSecFileName());
-                 //修改磁盘方法
+                 sec.getValue().setOnlyRead(changFileAttrController.isOnlyRead());
              }
          }
          //测试
@@ -450,12 +560,12 @@ public class OpenOperator {
             }
         }
         contextControllers.updateTreeItem(sec.getValue());
-
-        return true;
+        disk.printDisk();
+        return 3;
     }
 
     //保存更改目录属性界面内容操作
-    public boolean saveDirAttr(){
+    public int saveDirAttr() throws IOException {
         TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         DirectoryItem item = sec.getValue();
         List<TreeItem<DirectoryItem>> secChildren = sec.getParent().getChildren();
@@ -463,26 +573,35 @@ public class OpenOperator {
             if (d.getValue().getTypeOfFile() == 0 ){
                 if(d.getValue().getactFileName().equals(changeDirAttrController.getTextOfDir().getText())){
                     System.out.println("有重复命名失败");
-                    return false;
+                    return -1;
                 }
             }
 
         }
         //修改磁盘内容方法缺失
+        int nameRe = disk.changeAttrOp(sec,changeDirAttrController.getTextOfDir().getText(),sec.getValue().isOnlyRead(),0);
+        if (nameRe == 1){
+            return -2;
+        }
+        else if (nameRe==2){
+            return -3;
+        }
         sec.getValue().changeFileName(0,changeDirAttrController.getTextOfDir().getText());
         contextControllers.updateTreeItem(sec.getValue());
-        return true;
+        disk.printDisk();
+        return 1;
     }
 
     //保存文件内容操作
-    public boolean saveEditContext(){
+    public boolean saveEditContext() throws IOException {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
          String newContext = editController.getContextArea().getText();
         //修改磁盘内容
-        if(true){
+        if(disk.eidtOp(sec,newContext)){
             //写入磁盘成功
             sec.getValue().setFileContext(newContext);
             contextControllers.updateTreeItem(sec.getValue());
+            disk.printDisk();
             return true;
         }
         else {
@@ -532,5 +651,19 @@ public class OpenOperator {
         this.editController = editController;
     }
 
+    public Disk getDisk() {
+        return disk;
+    }
 
+    public void setDisk(Disk disk) {
+        this.disk = disk;
+    }
+
+    public OS getOs() {
+        return os;
+    }
+
+    public void setOs(OS os) {
+        this.os = os;
+    }
 }

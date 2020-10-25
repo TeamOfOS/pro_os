@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import os.OS;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -49,7 +50,7 @@ public class ChangFileAttrController implements Initializable {
     }
 
     //保存按钮操作
-    public void saveAction(){
+    public void saveAction() throws IOException {
         secFileName = textOfFileName.getText();
         int i = choiceOfReadAttr.getSelectionModel().getSelectedIndex();
         if(i==0){
@@ -68,11 +69,19 @@ public class ChangFileAttrController implements Initializable {
         if (t==1){
             isTxt = false;
         }
-        if ( !os.openOperator.saveFileAttr()){
+        int numRe = os.openOperator.saveFileAttr();
+        if ( numRe==0){
             alert.setContentText("在同一文件夹中出现命名重复，更改属性失败");
             alert.show();
         }
-
+        else if ( numRe==1){
+            alert.setContentText("命名过长不可使用");
+            alert.show();
+        }
+        else if ( numRe==2){
+            alert.setContentText("未找到相应文件");
+            alert.show();
+        }
         else {
             secondStage.hide();
         }
