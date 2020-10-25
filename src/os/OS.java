@@ -12,6 +12,11 @@ import model.progress.Clock;
 import model.disk.Disk;
 import model.memory.Memory;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /*
 公共变量类
  */
@@ -33,7 +38,7 @@ public class OS {
 
     static {
         try {
-
+            initDisk();
             disk = new Disk();
             memory = new Memory();
             cpu = new CPU();
@@ -73,6 +78,62 @@ public class OS {
         launched = false;
     }
 
+    /*
+    磁盘初始化
+     */
+
+    static void initDisk() throws IOException {
+        File file = new File("disk.dat");
+        FileOutputStream fout = null;
+        //判断模拟磁盘是否创建
+        if(file.exists()){
+            try{
+                fout = new FileOutputStream(file);
+                byte[] bytes;
+                bytes = new byte[64*128];
+                for(int i=0;i<128;i++){
+
+                    //写入初始分配表
+/*                    for(int j=0;j<64;j++){
+                        bytes[j*128+i] =0;
+                    }*/
+                    if (i==0){
+                        bytes[0]=-1;
+                        bytes[1]=-1;
+                        //bytes[2]=-1;
+                    }
+
+                    //写入根目录和生成的随机文件
+
+
+                }
+                fout.write(bytes);
+
+            } catch (FileNotFoundException e) {
+                java.lang.System.out.println("打开/新建磁盘文件失败！");
+                e.printStackTrace();
+            } catch (IOException e) {
+                java.lang.System.out.println("写入文件时发生错误");
+                e.printStackTrace();
+                java.lang.System.exit(0);
+            } finally {
+                if (fout != null) {
+                    try {
+                        fout.close();
+                    } catch (IOException e) {
+                        java.lang.System.out.println("关闭文件流时发生错误");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+        else{
+
+            System.out.println("模拟磁盘不存在，无需重新创建");
+
+        }
+    }
 
     //G&&S
     public  contextController getContextcontroller() {
@@ -82,6 +143,8 @@ public class OS {
     public void setContextcontroller(contextController contextcontroller) {
         contextcontroller = contextcontroller;
         openOperator.setContextControllers(contextcontroller);
+        disk.setContextController(contextcontroller);
+
     }
 
     public ChangFileAttrController getChangFileAttrController() {

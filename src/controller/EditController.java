@@ -9,6 +9,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import os.OS;
 
+import java.io.IOException;
+
 /*
 该类是编辑文件界面的控制器类
  */
@@ -25,11 +27,11 @@ public class EditController {
     private Text textOfInfo;//文件信息
     @FXML
     private ScrollPane scrollPane;//滚动
-
+    @FXML
+    private Text copyStr;//复制文件的来源
     private OS os;
     private Stage editStage = new Stage();
     private Alert alert;
-
     //构造方法
     public EditController(){
         alert = new Alert(Alert.AlertType.INFORMATION);
@@ -38,7 +40,7 @@ public class EditController {
     }
 
     //保存按钮操作
-    public void saveAction2(){
+    public void saveAction2() throws IOException {
        if (!os.openOperator.saveEditContext()){
            alert.setContentText("写入磁盘失败，无法保存");
            alert.show();
@@ -117,4 +119,15 @@ public class EditController {
     public void setAlert(Alert alert) {
         this.alert = alert;
     }
+
+    public Text getCopyStr() {
+        return copyStr;
+    }
+
+    public void setCopyStr(Text copyStr) {
+        this.copyStr = copyStr;
+    }
+
+
+
 }

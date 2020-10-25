@@ -23,6 +23,7 @@
                </font>
             </Text>
             <Button fx:id="cancelBtn2" layoutX="432.0" layoutY="363.0" mnemonicParsing="false" onAction="#cancelAction2" prefHeight="30.0" prefWidth="70.0" text="取消" />
+            <Text fx:id="copyStr" layoutX="35.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
    </children>
