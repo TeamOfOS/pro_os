@@ -13,6 +13,7 @@ import os.OS;
 
 public class ChangeDirAttrController {
 
+// 00 try to submit to github
     @FXML
     private Button saveBtn1 ;//保存按钮
     @FXML

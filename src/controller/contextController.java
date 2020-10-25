@@ -22,14 +22,18 @@ import model.fileuser.DirectoryItem;
 import model.memory.SubArea;
 import model.progress.Clock;
 import model.progress.PCB;
+import model.device.*;
 import os.OS;
 import ui.PCBVo;
+import ui.DeviceVo;
 import ui.UIResources;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 /*
 该类是主要内容界面的控制器类
@@ -95,6 +99,19 @@ public class contextController implements Initializable {
 	@FXML
     private VBox userAreaView;
 
+	@FXML
+	private TableView<DeviceVo>  waitingDeviceQueueView;
+	@FXML
+	private TableColumn waitingDeviceNameCol;
+	@FXML
+	private TableColumn waitingDevicePIDCol;
+	@FXML
+	private TableView<DeviceVo>  usingDeviceQueueView;
+	@FXML
+	private TableColumn usingDeviceNameCol;
+	@FXML
+	private TableColumn usingDevicePIDCol;
+
 
 	private Alert alert;//警告提示
 	private DirectoryItem copyItem = new DirectoryItem();//复制项目
@@ -158,7 +175,21 @@ public class contextController implements Initializable {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-
+							//更新等待设备进程队列视图
+							BlockingQueue<DeviceRequest> waitForDevices=os.cpu.getDeviceManager().getWaitForDevice();
+							ObservableList<DeviceVo> deviceVos=FXCollections.observableArrayList();
+							for (DeviceRequest deviceRequest:waitForDevices){
+								DeviceVo deviceVo=new DeviceVo(deviceRequest.getDeviceName(),deviceRequest.getPcb().getPID());
+								deviceVos.add(deviceVo);
+							}
+							waitingDeviceQueueView.setItems(deviceVos);
+							//更新使用设备进程队列视图
+							Queue<DeviceOccupy> usingDevices=os.cpu.getDeviceManager().getUsingDevices();
+							ObservableList<DeviceVo> deviceVos2=FXCollections.observableArrayList();
+							for (DeviceOccupy deviceOccupy:usingDevices){
+								DeviceVo deviceVo=new DeviceVo(deviceOccupy.getDeviceName(),deviceOccupy.getObj().getPID());
+								deviceVos2.add(deviceVo);
+							}
 							//更新进程执行过程视图
 							contextController.this.processRunningView.appendText(os.cpu.getInstuction()+ "\n");
 							contextController.this.processResultView.appendText(os.cpu.getResultOfProcess()+"\n");
@@ -216,6 +247,14 @@ public class contextController implements Initializable {
 	将输出进程的队列的模块初始化
 	这里面 00和qiuyu  应该也用得到 写完初始化方法往里面加就可
 	 */
+	public void initWaingDeviceQueueView(){
+		waitingDeviceNameCol.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
+		waitingDevicePIDCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
+	}
+	public void initUsingDeviceQueueView(){
+		usingDeviceNameCol.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
+		usingDevicePIDCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
+	}
 
 	public void initComponent() throws Exception {
 		processRunningView.setText("");
