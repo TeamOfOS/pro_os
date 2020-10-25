@@ -137,6 +137,7 @@ public class contextController implements Initializable {
 		alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setHeaderText(null);
 		diskM = os.disk;
+		updateUIThread = new UpdateUIThread();
 	}
 
 
@@ -169,9 +170,9 @@ public class contextController implements Initializable {
 	 */
 	public void launchOS() throws Exception {
 		os.launched = true;
-		//os.start();
+		os.start();
 
-		//new Thread(updateUIThread).start();
+		new Thread(updateUIThread).start();
 	}
 	/**
 	 * 关闭系统
@@ -195,6 +196,24 @@ public class contextController implements Initializable {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
+
+
+							//更新用户区内存视图
+							userAreaView.getChildren().removeAll(userAreaView.getChildren());
+							System.out.println("更新内存区");
+							List<SubArea> subAreas = os.memory.getSubAreas();
+							for(SubArea subArea:subAreas){
+								Pane pane = new Pane();
+								pane.setPrefWidth(1);
+								pane.setPrefHeight(userAreaView.getPrefHeight()*subArea.getSize()/512);
+								if(subArea.getStatus()==SubArea.STATUS_BUSY){
+									pane.setStyle("-fx-background-color: grey;");
+								}else{
+									pane.setStyle("-fx-background-color: red;");
+								}
+								userAreaView.getChildren().add(pane);
+							}
+
 							//更新等待设备进程队列视图
 							BlockingQueue<DeviceRequest> waitForDevices=os.cpu.getDeviceManager().getWaitForDevice();
 							ObservableList<DeviceVo> deviceVos=FXCollections.observableArrayList();
@@ -227,21 +246,9 @@ public class contextController implements Initializable {
 							ObservableList<PCBVo> datas = FXCollections.observableList(pcbVos);
 							pcbQueueView.setItems(datas);
 
-							//更新用户区内存视图
-                            userAreaView.getChildren().removeAll(userAreaView.getChildren());
-                            System.out.println("更新内存区");
-                            List<SubArea> subAreas = os.memory.getSubAreas();
-                            for(SubArea subArea:subAreas){
-                                Pane pane = new Pane();
-                                pane.setPrefWidth(320);
-                                pane.setPrefHeight(358*subArea.getSize()/512);
-                                if(subArea.getStatus()==SubArea.STATUS_BUSY){
-                                    pane.setStyle("-fx-background-color: grey;");
-                                }else{
-                                    pane.setStyle("-fx-background-color: green;");
-                                }
-                                userAreaView.getChildren().add(pane);
-                            }
+
+
+
 						}
 					});
 

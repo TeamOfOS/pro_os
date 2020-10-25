@@ -8,11 +8,13 @@ import controller.contextController;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import model.disk.Disk;
+import model.progress.PCB;
 import os.OS;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /*
 该类是文件管理的方法
@@ -328,6 +330,7 @@ disk.printDisk();
     public void run(){
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         System.out.println(sec.getValue().getFileName()+" 放入内存啦");
+
     }
 
 
