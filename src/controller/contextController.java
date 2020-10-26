@@ -204,12 +204,12 @@ public class contextController implements Initializable {
 							List<SubArea> subAreas = os.memory.getSubAreas();
 							for(SubArea subArea:subAreas){
 								Pane pane = new Pane();
-								pane.setPrefWidth(1);
+								pane.setPrefWidth(userAreaView.getPrefHeight());
 								pane.setPrefHeight(userAreaView.getPrefHeight()*subArea.getSize()/512);
 								if(subArea.getStatus()==SubArea.STATUS_BUSY){
 									pane.setStyle("-fx-background-color: grey;");
 								}else{
-									pane.setStyle("-fx-background-color: red;");
+									pane.setStyle("-fx-background-color: green;");
 								}
 								userAreaView.getChildren().add(pane);
 							}
