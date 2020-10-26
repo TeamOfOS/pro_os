@@ -102,8 +102,8 @@
             </ContextMenu>
          </contextMenu>
       </TreeView>
-      <TextArea layoutX="41.0" layoutY="71.0" prefHeight="257.0" prefWidth="225.0" text="                      用户区内存情况" />
-      <VBox fx:id="userAreaView" layoutX="45.0" layoutY="71.0" prefHeight="257.0" prefWidth="218.0" />
+      <TextArea layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" text="            用户区内存情况" />
+      <VBox fx:id="userAreaView" layoutX="22.0" layoutY="98.0" prefHeight="257.0" prefWidth="225.0" />
       <AnchorPane fx:id="disk" layoutX="710.0" layoutY="409.0" prefHeight="318.0" prefWidth="446.0" style="-fx-border-color: grey;">
          <children>
             <TitledPane animated="false" prefHeight="316.0" prefWidth="446.0" text="磁盘">
