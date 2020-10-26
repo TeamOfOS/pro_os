@@ -22,13 +22,13 @@
          </children></AnchorPane>
       <AnchorPane fx:id="device" layoutX="22.0" layoutY="387.0" prefHeight="403.0" prefWidth="248.0">
          <children>
-            <TableView prefHeight="200.0" prefWidth="256.0">
+            <TableView fx:id="waitingDeviceQueueView" prefHeight="200.0" prefWidth="256.0">
               <columns>
                 <TableColumn fx:id="waitingDeviceNameCol" prefWidth="128.0" text="设备名称" />
                 <TableColumn fx:id="waitingDevicePIDCol" prefWidth="127.0" text="等待的进程" />
               </columns>
             </TableView>
-            <TableView layoutY="202.0" prefHeight="200.0" prefWidth="256.0">
+            <TableView fx:id="usingDeviceQueueView" layoutY="202.0" prefHeight="200.0" prefWidth="256.0">
               <columns>
                 <TableColumn fx:id="usingDeviceNameCol" prefWidth="132.0" text="设备名称" />
                 <TableColumn fx:id="usingDevicePIDCol" prefWidth="124.0" text="占用的进程" />
@@ -102,8 +102,8 @@
             </ContextMenu>
          </contextMenu>
       </TreeView>
-      <TextArea layoutX="41.0" layoutY="71.0" prefHeight="257.0" prefWidth="225.0" text="                      用户区内存情况" />
-      <VBox fx:id="userAreaView" layoutX="45.0" layoutY="71.0" prefHeight="257.0" prefWidth="218.0" />
+      <TextArea layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" text="            用户区内存情况" />
+      <VBox fx:id="userAreaView" layoutX="22.0" layoutY="98.0" prefHeight="257.0" prefWidth="225.0" />
       <AnchorPane fx:id="disk" layoutX="710.0" layoutY="409.0" prefHeight="318.0" prefWidth="446.0" style="-fx-border-color: grey;">
          <children>
             <TitledPane animated="false" prefHeight="316.0" prefWidth="446.0" text="磁盘">

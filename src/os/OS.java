@@ -11,6 +11,7 @@ import model.progress.CPU;
 import model.progress.Clock;
 import model.disk.Disk;
 import model.memory.Memory;
+import model.progress.ProcessCreator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,6 +31,7 @@ public class OS {
     public static volatile boolean launched;//系统资源开关，volatile修饰 不进行系统优化，即每次都必须在内存中进行存取launched而不能在cache中读取
     public static OpenOperator openOperator;//打开的操作
     public contextController contextcontroller;//主要控制界面
+    public static ProcessCreator processCreator;//进程创建器
     public ChangFileAttrController changFileAttrController;//改变文件属性界面
     public ChangeDirAttrController changeDirAttrController;//改变目录属性界面
     public EditController editController;//打开编辑界面
@@ -44,6 +46,7 @@ public class OS {
             cpu = new CPU();
             clock = new Clock();
             openOperator = new OpenOperator();
+            processCreator = new ProcessCreator();
 
             os=new OS();
         } catch (Exception e) {

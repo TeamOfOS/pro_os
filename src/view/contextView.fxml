@@ -22,13 +22,13 @@
          </children></AnchorPane>
       <AnchorPane fx:id="device" layoutX="22.0" layoutY="387.0" prefHeight="403.0" prefWidth="248.0">
          <children>
-            <TableView prefHeight="200.0" prefWidth="256.0">
+            <TableView fx:id="waitingDeviceQueueView" prefHeight="200.0" prefWidth="256.0">
               <columns>
                 <TableColumn fx:id="waitingDeviceNameCol" prefWidth="128.0" text="设备名称" />
                 <TableColumn fx:id="waitingDevicePIDCol" prefWidth="127.0" text="等待的进程" />
               </columns>
             </TableView>
-            <TableView layoutY="202.0" prefHeight="200.0" prefWidth="256.0">
+            <TableView fx:id="usingDeviceQueueView" layoutY="202.0" prefHeight="200.0" prefWidth="256.0">
               <columns>
                 <TableColumn fx:id="usingDeviceNameCol" prefWidth="132.0" text="设备名称" />
                 <TableColumn fx:id="usingDevicePIDCol" prefWidth="124.0" text="占用的进程" />

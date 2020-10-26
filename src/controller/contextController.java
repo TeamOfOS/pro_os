@@ -222,6 +222,7 @@ public class contextController implements Initializable {
 								deviceVos.add(deviceVo);
 							}
 							waitingDeviceQueueView.setItems(deviceVos);
+
 							//更新使用设备进程队列视图
 							Queue<DeviceOccupy> usingDevices=os.cpu.getDeviceManager().getUsingDevices();
 							ObservableList<DeviceVo> deviceVos2=FXCollections.observableArrayList();
@@ -229,6 +230,7 @@ public class contextController implements Initializable {
 								DeviceVo deviceVo=new DeviceVo(deviceOccupy.getDeviceName(),deviceOccupy.getObj().getPID());
 								deviceVos2.add(deviceVo);
 							}
+							usingDeviceQueueView.setItems(deviceVos2);
 							//更新进程执行过程视图
 							contextController.this.processRunningView.appendText(os.cpu.getInstuction()+ "\n");
 							contextController.this.processResultView.appendText(os.cpu.getResultOfProcess()+"\n");
