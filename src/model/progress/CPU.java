@@ -2,6 +2,7 @@ package model.progress;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
+import controller.contextController;
 import mananger.DeviceManager;
 import model.device.DeviceRequest;
 import model.memory.*;
@@ -15,7 +16,7 @@ public class CPU implements Runnable {
     private int CX; //2
     private int DX; //3
     private int PC;
-    public char[] IR = new char[3];
+    public String IR;
 
     public static int PSW;
     public static final int NONE_INTERMIT = 0;  //无中断
@@ -44,7 +45,7 @@ public class CPU implements Runnable {
      */
     public void init() {
         String str = "NOP";
-        IR = str.toCharArray();
+        IR = "null";
         AX = 0;
         BX = 0;
         CX = 0;
@@ -180,10 +181,12 @@ public class CPU implements Runnable {
      */
     public void fetchInstruction() {
         if (memory.getRunningPCB() == memory.getHangOutPCB()) {
+            dispatch();
             //IR=0;//NOP不执行
         } else {
+            memory.setRunningPCB(memory.getWaitPCB().peek());
             String[] userArea = memory.getUserArea();
-            IR = userArea[PC].toCharArray();
+            IR = userArea[PC];
             PC++;
         }
         //    System.out.println("取指完成，开始运行指令"+IR);
@@ -194,21 +197,25 @@ public class CPU implements Runnable {
      * 执行与写回
      */
     public String execute() {
-        result = "hangdOutProcess......";
+        // = "hangdOutProcess......";
         PSW=CPU.NORMAL_INTERMIT;
-        if (IR[0] == 'e' && IR[1] == 'n' && IR[2] == 'd') {
+        System.out.println("准备开始运行");
+        if (IR.contains("end")) {
+
+            System.out.println("运行了end");
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
             dispatch();
             temp += "end";
             result += "end";
             return result;
-        } else if (IR[0] == '!') {
+        } else if (IR.contains("!")) {
             try {
-                result += "!" + IR[1] + IR[2];
+                System.out.println("运行了！");
+                result += IR;
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
-                temp+="申请"+IR[1]+IR[2]+".....";
+                temp+="申请"+IR.charAt(1)+IR.charAt(2)+".....";
                 deviceRequest.setDeviceName(temp);
                 deviceRequest.setWorkTime((int)(Math.random()*5000));
                 deviceRequest.setPcb(memory.getRunningPCB());
@@ -222,28 +229,32 @@ public class CPU implements Runnable {
 
             }
             return result;
-        } else if (IR[1] == '=') {
-            result += "x=" + IR[2]+"（赋值操作）";
-            temp += "x="+IR[2];
-            String rest = String.valueOf(IR[2]);
+        } else if (IR.contains("=")) {
+            System.out.println("运行了==");
+            result += IR+"（赋值操作）";
+            temp += IR;
+            String rest = String.valueOf(IR.charAt(2));
             AX = Integer.parseInt(rest);
             return result;
-        } else if (IR[1] == '+') {
-            String rest = String.valueOf(IR[2]);
+        } else if (IR.contains("+") ) {
+            System.out.println("运行了+");
+            String rest = String.valueOf(IR.charAt(2));
             int c = Integer.parseInt(rest);
             AX = AX + c;
             temp += "x="+ AX;
-            result += "x+" + IR[2];
+            result +=IR;
             return result;
 
-        } else if (IR[1] == '-') {
-            String rest = String.valueOf(IR[2]);
+        } else if (IR.contains("-")) {
+            System.out.println("运行了-");
+            String rest = String.valueOf(IR.charAt(2));
             int c = Integer.parseInt(rest);
             AX = AX - c;
             temp +=  "x="+AX;
-            result += "x-" + IR[2];
+            result += IR;
             return result;
         }
+        System.out.println("啥也莫得运行");
         return "the instruction is false";
     }
 
@@ -265,13 +276,17 @@ public class CPU implements Runnable {
             else if(PSW==CPU.EQUIP_INTERMIT){
                 return;
             }
+
             lock.lock();
             try {
+
                 fetchInstruction();//取指
                 execute();//执行
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+
                 lock.unlock();
             }
 

@@ -10,7 +10,7 @@ public class PCB {
     public static final int EVENT_NOTING=2;//无
     private static  int idGenerator =0;
 
-    private int PID;//进程唯一标识符
+    private int PID=-1;//进程唯一标识符
 
     private String status;//状态
 
