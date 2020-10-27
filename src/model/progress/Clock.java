@@ -32,7 +32,12 @@ public class Clock implements Runnable {
         synchronized(this) {
             while (OS.launched) {
                 //这边可能由有点小bug 看到时候最后的运行的调试。。
-                    systemTime += TIMESLICE_UNIT / 1000;
+                try {
+                    Thread.sleep(TIMESLICE_UNIT);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                systemTime += TIMESLICE_UNIT / 1000;
                     restTime = (restTime + TIMESLICE_LENGTH - TIMESLICE_UNIT / 1000) % TIMESLICE_LENGTH;
                     //时间片到了
                     if (restTime == 0) {

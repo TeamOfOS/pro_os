@@ -27,7 +27,7 @@ public class CPU implements Runnable {
     private int OP;
     private int DR;
     private int SR;
-    private String result = "NOP";
+    private String result = "hangdOutProcess......";
     private String  temp="NOP";
 
 
@@ -253,6 +253,7 @@ public class CPU implements Runnable {
     public void run() {
         //这边可能由有点小bug 看到时候最后的运行的调试
         while (OS.launched) {
+
             try {
                 Thread.sleep(Clock.TIMESLICE_UNIT);
             } catch (InterruptedException e) {
