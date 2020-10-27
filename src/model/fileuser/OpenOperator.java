@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import model.disk.Disk;
 import model.progress.PCB;
+import model.progress.ProcessCreator;
 import os.OS;
 
 import java.io.IOException;
@@ -27,6 +28,8 @@ public class OpenOperator {
      private EditController editController;//打开编辑界面
      private Disk disk;
      private OS os;
+
+     private ProcessCreator processCreator = new ProcessCreator();
      /*
      构造方法初始化
       */
@@ -327,10 +330,16 @@ disk.printDisk();
     }
 
     //菜单运行操作
-    public void run(){
+    public void run() throws Exception {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
         System.out.println(sec.getValue().getFileName()+" 放入内存啦");
-
+        String[] strings = new String[sec.getValue().getFileContext().length()];
+        int i=0;
+        for(byte b : sec.getValue().bytes){
+            strings[i] = String.valueOf(b);
+            i++;
+        }
+        processCreator.create(strings);
     }
 
 

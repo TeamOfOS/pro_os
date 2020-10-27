@@ -201,7 +201,7 @@ public class contextController implements Initializable {
 							//更新用户区内存视图
 							userAreaView.getChildren().removeAll(userAreaView.getChildren());
 							System.out.println("更新内存区");
-							List<SubArea> subAreas = os.memory.getSubAreas();
+							List<SubArea> subAreas = OS.memory.getSubAreas();
 							for(SubArea subArea:subAreas){
 								Pane pane = new Pane();
 								pane.setPrefWidth(userAreaView.getPrefHeight());
@@ -638,7 +638,7 @@ public class contextController implements Initializable {
 	}
 
 	//菜单运行操作
-	public void run(){
+	public void run() throws Exception {
 		os.openOperator.run();
 		//缺少将文件放入内存的方法
 	}
