@@ -4,7 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import model.progress.PCB;
 
 public class PCBVo {
-    private SimpleStringProperty PID;
+    private SimpleStringProperty PID=null;
     private SimpleStringProperty status;
     private SimpleStringProperty priority;
     public PCBVo(PCB pcb){
