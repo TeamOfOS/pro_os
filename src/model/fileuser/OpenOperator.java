@@ -335,7 +335,7 @@ disk.printDisk();
         System.out.println(sec.getValue().getFileName()+" 放入内存啦");
         String[] strings = new String[sec.getValue().getFileContext().length()];
         int i=0;
-        for(byte b : sec.getValue().bytes){
+        for(byte b : sec.getValue().getFileContext().getBytes()){
             strings[i] = String.valueOf(b);
             i++;
         }
