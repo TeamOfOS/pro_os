@@ -336,8 +336,11 @@ disk.printDisk();
         String[] strings = new String[sec.getValue().getFileContext().length()];
         int i=0;
         for(byte b : sec.getValue().getFileContext().getBytes()){
-            strings[i] = String.valueOf(b);
+            strings[i] = String.valueOf((char)b);
             i++;
+        }
+        for(String s:strings){
+            System.out.print(s+" ");
         }
         processCreator.create(strings);
     }
