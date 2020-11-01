@@ -57,7 +57,7 @@ public class Disk {
 
             directoryItem.getValue().setNumOfStartDisk(firstBlock());
             setFat(directoryItem.getValue().getNumOfStartDisk(),-1);
-            System.out.println("开始磁盘号："+directoryItem.getValue().getNumOfStartDisk());
+            //System.out.println("开始磁盘号："+directoryItem.getValue().getNumOfStartDisk());
             byte[] buffer = new byte[64]; //磁盘读取的byte
             byte[] dirBytes = directoryItem.getValue().getBytes(); //目录的byte
 
@@ -109,9 +109,9 @@ public class Disk {
         //System.out.println("新内容需要磁盘数："+coutBlock);
         int becoutBlock = directoryItem.getValue().getLengthOfFile();
         byte[] buffer = new byte[64];
-        System.out.println("文本长度："+contextBytes.length);
+/*        System.out.println("文本长度："+contextBytes.length);
         System.out.println("之前的磁盘数量；"+becoutBlock);
-        System.out.println("新内容的磁盘数量："+coutBlock);
+        System.out.println("新内容的磁盘数量："+coutBlock);*/
         if(coutBlock()<(coutBlock-becoutBlock)){
             System.out.println("磁盘容量不足");
             return false;
@@ -146,14 +146,14 @@ public class Disk {
             int nextBlock = directoryItem.getValue().getNumOfStartDisk();
             for (a=0;a<coutBlock;a++){
                 nowBlock = nextBlock;
-                System.out.println("下面这句可能报错");
+                //System.out.println("下面这句可能报错");
                 int len = contextBytes.length-a*64;
                 if (len>64){
                     len = 64;
                 }
                 System.arraycopy(new byte[64],0,replaceBytes,0,64);
                 System.arraycopy(contextBytes,a*64,replaceBytes,0,len);
-                System.out.println("上面这句可能报错");
+                //System.out.println("上面这句可能报错");
                 diskModel.seek(nowBlock*64);
                 diskModel.write(replaceBytes,0,64);
                 nextBlock = nextBlock(nowBlock);
@@ -174,19 +174,19 @@ public class Disk {
             int nextBlock = directoryItem.getValue().getNumOfStartDisk();
             for (a=0;a<becoutBlock;a++){
                 nowBlock = nextBlock;
-                System.out.println("下面这句可能报错");
+               // System.out.println("下面这句可能报错");
                 int len = contextBytes.length-a*64;
                 if (len>64){
                     len = 64;
                 }
                 System.arraycopy(new byte[64],0,replaceBytes,0,64);
                 System.arraycopy(contextBytes,a*64,replaceBytes,0,len);
-                System.out.println("上面这句可能报错");
+/*                System.out.println("上面这句可能报错");*/
                 diskModel.seek(nowBlock*64);
                 diskModel.write(replaceBytes,0,64);
                 nextBlock = nextBlock(nowBlock);
-                System.out.println("nowBlock1:"+nowBlock);
-                System.out.println("nextBlock1:"+nextBlock);
+/*                System.out.println("nowBlock1:"+nowBlock);
+                System.out.println("nextBlock1:"+nextBlock);*/
             }
             nextBlock = firstBlock();
             setFat(nowBlock,nextBlock);
@@ -204,8 +204,8 @@ public class Disk {
                 System.arraycopy(contextBytes,a*64,replaceBytes,0,len);
                 diskModel.seek(nowBlock*64);
                 diskModel.write(replaceBytes,0,64);
-                System.out.println("nowBlock1:"+nowBlock);
-                System.out.println("nextBlock1:"+nextBlock);
+/*                System.out.println("nowBlock1:"+nowBlock);
+                System.out.println("nextBlock1:"+nextBlock);*/
             }
             System.out.println("修改磁盘完成");
             setFat(nowBlock,-1);
@@ -235,18 +235,18 @@ public class Disk {
                 //directoryItem.getValue().getactFileName();
         diskModel.seek(startBlock*64);
         diskModel.read(buffer,0,buffer.length);
-        System.out.println("comName:"+comStr);
-        System.out.println("comlen:"+comStr.length());
+/*        System.out.println("comName:"+comStr);
+        System.out.println("comlen:"+comStr.length());*/
         for (int i=0;i<64;i+=8){
             String nowName = new String(buffer,i,3);
-            System.out.println("nowName:"+nowName.toString());
+           // System.out.println("nowName:"+nowName.toString());
             if(comStr.equals(nowName)){
-                System.out.println("字符串相同");
+                //System.out.println("字符串相同");
                 System.arraycopy(new byte[3],0,buffer,i,3);
                 System.arraycopy(name.getBytes(),0,buffer,i,name.getBytes().length);
-                System.out.println("buffer0"+buffer[i]);
+/*                System.out.println("buffer0"+buffer[i]);
                 System.out.println("buffer1"+buffer[i+1]);
-                System.out.println("buffer2"+buffer[i+2]);
+                System.out.println("buffer2"+buffer[i+2]);*/
                 if (typeOfFile==1){
                     buffer[i+5]|=4;
                 }
@@ -261,11 +261,11 @@ public class Disk {
                 directoryItem.getValue().setBytes(bytes);
                 diskModel.seek(startBlock*64+i);
                 diskModel.write(bytes,0,bytes.length);
-                System.out.print("bytename");
+/*                System.out.print("bytename");
                 System.out.print(bytes[0]);
                 System.out.print(bytes[1]);
                 System.out.print(bytes[2]);
-                System.out.println(bytes[5]);
+                System.out.println(bytes[5]);*/
                 System.out.println("写入磁盘更改属性成功！");
                 return 3;
             }
@@ -284,14 +284,14 @@ public class Disk {
         int startBlock = parentDir.getValue().getNumOfStartDisk();
         diskModel.seek(startBlock*64);
         diskModel.read(buffer,0,buffer.length);
-        System.out.println("startBlock:"+startBlock);
+        //System.out.println("startBlock:"+startBlock);
         String comName = directoryItem.getValue().getactFileName();
-        System.out.println("comName:"+comName);
+        //System.out.println("comName:"+comName);
         for (int i=0;i<64;i+=8){
-            System.out.println("buffer i:"+i);
+            //System.out.println("buffer i:"+i);
 
             String nowName = new String(buffer,i,3);
-            System.out.println("nowName:"+nowName);
+           // System.out.println("nowName:"+nowName);
             if(nowName.equals(comName)){
                 for (int j=i;j<i+8;j++){
                     buffer[j] = 0;
@@ -304,16 +304,16 @@ public class Disk {
         }
         int nowBlock = directoryItem.getValue().getNumOfStartDisk();
         int nextBlock = directoryItem.getValue().getNumOfStartDisk();
-        System.out.println("nowBlock:"+nowBlock);
-        System.out.println("nextBlock:"+nextBlock);
-        System.out.println(directoryItem.getValue().getLengthOfFile());
+        //System.out.println("nowBlock:"+nowBlock);
+        //System.out.println("nextBlock:"+nextBlock);
+        //System.out.println(directoryItem.getValue().getLengthOfFile());
        for (int i=0;i<directoryItem.getValue().getLengthOfFile();i++){
 
            diskModel.seek(nowBlock);
            nextBlock = diskModel.readByte();
            setFat(nowBlock,0);
            nowBlock = nextBlock;
-           System.out.println("我进来了");
+         //  System.out.println("我进来了");
        }
         System.out.println("修改分配表成功");
         return true;
@@ -404,7 +404,7 @@ public class Disk {
     查看disk文件里的所有
      */
     public void printDisk() throws IOException {
-        byte[] fat = getFat();
+/*        byte[] fat = getFat();
         for (int i=2;i<128;i++){
             if (fat[i]!=0){
                 System.out.println("---------------------------");
@@ -418,7 +418,7 @@ public class Disk {
                 }
                 System.out.println("---------------------------");
             }
-        }
+        }*/
         System.out.println("读取结束");
     }
     //G&S

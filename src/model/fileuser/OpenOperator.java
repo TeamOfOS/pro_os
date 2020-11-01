@@ -8,6 +8,7 @@ import controller.contextController;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
 import model.disk.Disk;
+import model.progress.CPU;
 import model.progress.PCB;
 import model.progress.ProcessCreator;
 import os.OS;
@@ -28,13 +29,14 @@ public class OpenOperator {
      private EditController editController;//打开编辑界面
      private Disk disk;
      private OS os;
-
+     private CPU cpu;
      private ProcessCreator processCreator = new ProcessCreator();
      /*
      构造方法初始化
       */
     public OpenOperator(){
         disk = os.disk;
+        cpu = os.cpu;
     }
 
      /*
@@ -90,7 +92,7 @@ public class OpenOperator {
         String strEx = "!";//str ！
         String strEq = "=";//str =
         String[] strDev = {"A","B","C"};//str A，B，C
-        int x = (int)(Math.random()*100)%92+8;//x变量
+        int x = (int)(Math.random()*10)%10;//x变量
         int choiceInstruction = 0;//选择x加减指令还是设备指令
         int choiceBetweenAandR = 0;//选择加法还是减法
         int choiceOfDev =0;//设备选择
@@ -111,11 +113,11 @@ public class OpenOperator {
                 }
             }
             else {
-                time =(int) (Math.random()*10);
+/*                time =(int) (Math.random()*10);
                 choiceOfDev = (int)(Math.random()*10)%3;
                 String secDev = strDev[choiceOfDev];
-                context += strEx+secDev+time+strEnter;
-
+                context += strEx+secDev+time+strEnter;*/
+                context +=strX+strAdd+strAdd+strEnter;
                 //设备
             }
         }
@@ -343,6 +345,7 @@ disk.printDisk();
             System.out.print(s+" ");
         }
         processCreator.create(strings);
+
     }
 
 
