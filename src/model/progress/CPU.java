@@ -240,9 +240,27 @@ System.out.println("我用了这个方法吗");
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
                 temp="申请"+IR.charAt(1)+IR.charAt(2)+".....";
-                deviceRequest.setDeviceName(temp);
-                deviceRequest.setWorkTime((int)(Math.random()*5000));
+                //------修改------------
+                char charDevice = IR.charAt(1);
+                String deviceName=new String(String.valueOf(charDevice));
+
+                deviceRequest.setDeviceName(deviceName);
+
+                //------修改--------------
+               // deviceRequest.setDeviceName(temp);
+
+                //deviceRequest.setWorkTime((int)(Math.random()*5000));
+                //deviceRequest.setPcb(memory.getRunningPCB());
+                //-----修改----
+                String strSR = String.valueOf(IR.charAt(2));
+                SR = Integer.parseInt(strSR);
+                deviceRequest.setWorkTime(SR*5000);
                 deviceRequest.setPcb(memory.getRunningPCB());
+                System.out.println("deviceName:"+deviceName+"  SR:"+SR+"pcb:"+memory.getRunningPCB());
+                System.out.println("设备的deviceName:"+deviceRequest.getDeviceName()+"  设备的工作时间:"+deviceRequest.getWorkTime()+"设备的pcb:"+deviceRequest.getPcb());
+                deviceManager.requestDevice(deviceRequest);
+                //修改
+
                 //阻塞进程
                 block();
                 dispatch();

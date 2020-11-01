@@ -148,8 +148,6 @@ public class contextController implements Initializable {
 
 		if (!os.launched) {
 
-
-
 				initComponent();
 			addRightMenu(this.directoryItemTreeView);
 
@@ -222,6 +220,7 @@ public class contextController implements Initializable {
 								deviceVos.add(deviceVo);
 							}
 							waitingDeviceQueueView.setItems(deviceVos);
+							System.out.println("等待队列长度："+deviceVos.size());
 
 							//更新使用设备进程队列视图
 							Queue<DeviceOccupy> usingDevices=os.cpu.getDeviceManager().getUsingDevices();
@@ -231,6 +230,11 @@ public class contextController implements Initializable {
 								deviceVos2.add(deviceVo);
 							}
 							usingDeviceQueueView.setItems(deviceVos2);
+							//usingDeviceQueueView.
+							System.out.println("使用队列长度："+deviceVos2.size());
+							for (DeviceVo d:deviceVos2){
+								System.out.println("deviceName:"+d.getDeviceName()+"PID:"+d.getPID());
+							}
 							//更新进程执行过程视图
 							contextController.this.processRunningView.appendText(os.cpu.getInstuction());
 							contextController.this.processResultView.appendText(os.cpu.getResultOfProcess()+"\n");
@@ -283,6 +287,7 @@ public class contextController implements Initializable {
 	public void initUsingDeviceQueueView(){
 		usingDeviceNameCol.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
 		usingDevicePIDCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
+
 	}
 
 	public void initComponent() throws Exception {
@@ -292,6 +297,8 @@ public class contextController implements Initializable {
 		initPcbQueueView();
 		initDirectoryItemTree();//我把芳芳的移到这里了  初始化直接调用这个方法
 		//可添加初始化磁盘分配等代码 （00和qiuyu）
+		initUsingDeviceQueueView();
+		initWaingDeviceQueueView();
 	}
 
 

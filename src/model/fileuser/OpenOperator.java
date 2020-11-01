@@ -113,11 +113,11 @@ public class OpenOperator {
                 }
             }
             else {
-/*                time =(int) (Math.random()*10);
+                time =(int) (Math.random()*10);
                 choiceOfDev = (int)(Math.random()*10)%3;
                 String secDev = strDev[choiceOfDev];
-                context += strEx+secDev+time+strEnter;*/
-                context +=strX+strAdd+strAdd+strEnter;
+                context += strEx+secDev+time+strEnter;
+                //context +=strX+strAdd+strAdd+strEnter;
                 //设备
             }
         }

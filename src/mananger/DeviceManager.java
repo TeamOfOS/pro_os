@@ -22,18 +22,18 @@ public  class  DeviceManager {
     private BlockingQueue<DeviceRequest> waitForDevice;
 
     public DeviceManager(CPU cpu){
-        a=new A(2);//A设备2个
-        b=new B(3);//B设备3个
-        c=new C(3);//C设备3个
+        a=new A(1);//A设备2个
+        b=new B(1);//B设备3个
+        c=new C(1);//C设备3个
         usingDevices =new DelayQueue<>();
         waitForDevice=new ArrayBlockingQueue<>(20);
         this.cpu=cpu;
     }//构造方法
 
     public void  init(){
-        a.setCount(2);
-        b.setCount(3);
-        c.setCount(3);
+        a.setCount(1);
+        b.setCount(1);
+        c.setCount(1);
         usingDevices.removeAll(usingDevices);
         waitForDevice.removeAll(waitForDevice);
         //释放设备线程
