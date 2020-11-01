@@ -3,12 +3,18 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 import controller.contextController;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import mananger.DeviceManager;
 import model.device.DeviceRequest;
 import model.memory.*;
 import os.OS;
 
 public class CPU implements Runnable {
+    @FXML
+    private TextArea processRunningView;
+    @FXML
+    private TextArea processResultView;
     static ReentrantLock lock = new ReentrantLock();
     //寄存器组
     private int AX; //0
@@ -28,7 +34,7 @@ public class CPU implements Runnable {
     private int OP;
     private int DR;
     private int SR;
-    private String result = "hangdOutProcess......";
+    private String result = "hangdOutProcess......"+"\n";
     private String  temp="NOP";
 
 
@@ -215,7 +221,7 @@ System.out.println("我用了这个方法吗");
     public String execute() {
         temp = "NOP";
         //修改了result
-        result = "hangdOutProcess......";
+        result = "hangdOutProcess......"+"\n";
         PSW=CPU.NORMAL_INTERMIT;
         System.out.println("准备开始运行");
         if (IR.contains("end")) {
@@ -224,8 +230,8 @@ System.out.println("我用了这个方法吗");
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
             dispatch();
-            temp = "end"+"\n";
-            result = "end"+"\n";
+            temp = "end";
+            result =IR;
             return result;
         } else if (IR.contains("!")) {
             try {
@@ -233,7 +239,7 @@ System.out.println("我用了这个方法吗");
                 result = IR;
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
-                temp="申请"+IR.charAt(1)+IR.charAt(2)+"....."+"\n";
+                temp="申请"+IR.charAt(1)+IR.charAt(2)+".....";
                 deviceRequest.setDeviceName(temp);
                 deviceRequest.setWorkTime((int)(Math.random()*5000));
                 deviceRequest.setPcb(memory.getRunningPCB());
@@ -249,10 +255,11 @@ System.out.println("我用了这个方法吗");
             return result;
         } else if (IR.contains("=")) {
             System.out.println("运行了==");
-            result = IR+"（赋值操作）"+"\n";
-            temp = IR+"\n";
+            result = IR;
+
             String rest = String.valueOf(IR.charAt(2));
             AX = Integer.parseInt(rest);
+            temp ="x="+AX;
             //
             PSW = NONE_INTERMIT;
             return result;
@@ -262,7 +269,7 @@ System.out.println("我用了这个方法吗");
             //int c = Integer.parseInt(rest);
             //AX = AX + c;
             AX = AX + 1;
-            temp ="x="+ AX+"\n";
+            temp ="x="+ AX;
             result =IR;
             //
             PSW = NONE_INTERMIT;
@@ -274,7 +281,7 @@ System.out.println("我用了这个方法吗");
             int c = Integer.parseInt(rest);
             AX = AX - c;*/
             AX = AX - 1;
-            temp ="x="+AX+"\n";
+            temp ="x="+AX;
             result=IR;
             //
             PSW = NONE_INTERMIT;
@@ -311,11 +318,15 @@ System.out.println("过来了嘛");
             }
             if(CPU.PSW==CPU.TIME_INTERMIT){
                 System.out.println("结束2");
+                result="时间片中断了！！"+"\n";
+                temp="时间片中断了！！";
                 continue;
                 //return;
             }
             else if(PSW==CPU.EQUIP_INTERMIT){
                 System.out.println("结束3");
+                result="设备中断了！！"+"\n";
+                temp="设备中断了！！";
                 continue;
                 //return;
             }
@@ -326,6 +337,18 @@ System.out.println("取指1");
                 fetchInstruction();//取指
                 System.out.println("取指2");
                 execute();//执行
+                if(CPU.PSW==CPU.TIME_INTERMIT){
+                    System.out.println("结束2");
+                    result="时间片中断了！！"+"\n";
+                    temp="时间片中断了！！";
+
+                }
+                else if(PSW==CPU.EQUIP_INTERMIT){
+                    System.out.println("结束3");
+                   // result="设备中断了！！"+"\n";
+                    temp="设备中断了！！";
+
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
