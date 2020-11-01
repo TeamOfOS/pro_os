@@ -213,9 +213,9 @@ System.out.println("我用了这个方法吗");
      * 执行与写回
      */
     public String execute() {
-        // = "hangdOutProcess......";
+        temp = "NOP";
         //修改了result
-        //result = "hangdOutProcess......";
+        result = "hangdOutProcess......";
         PSW=CPU.NORMAL_INTERMIT;
         System.out.println("准备开始运行");
         if (IR.contains("end")) {
@@ -224,16 +224,16 @@ System.out.println("我用了这个方法吗");
             PSW = CPU.NORMAL_INTERMIT;
             destroy();    //END
             dispatch();
-            temp += "end";
-            result += "end";
+            temp = "end"+"\n";
+            result = "end"+"\n";
             return result;
         } else if (IR.contains("!")) {
             try {
                 System.out.println("运行了！");
-                result += IR;
+                result = IR;
                 PSW = CPU.EQUIP_INTERMIT;;
                 DeviceRequest deviceRequest = new DeviceRequest();
-                temp+="申请"+IR.charAt(1)+IR.charAt(2)+".....";
+                temp="申请"+IR.charAt(1)+IR.charAt(2)+"....."+"\n";
                 deviceRequest.setDeviceName(temp);
                 deviceRequest.setWorkTime((int)(Math.random()*5000));
                 deviceRequest.setPcb(memory.getRunningPCB());
@@ -249,8 +249,8 @@ System.out.println("我用了这个方法吗");
             return result;
         } else if (IR.contains("=")) {
             System.out.println("运行了==");
-            result += IR+"（赋值操作）";
-            temp += IR;
+            result = IR+"（赋值操作）"+"\n";
+            temp = IR+"\n";
             String rest = String.valueOf(IR.charAt(2));
             AX = Integer.parseInt(rest);
             //
@@ -262,8 +262,8 @@ System.out.println("我用了这个方法吗");
             //int c = Integer.parseInt(rest);
             //AX = AX + c;
             AX = AX + 1;
-            temp += "x="+ AX;
-            result +=IR;
+            temp ="x="+ AX+"\n";
+            result =IR;
             //
             PSW = NONE_INTERMIT;
             return result;
@@ -274,8 +274,8 @@ System.out.println("我用了这个方法吗");
             int c = Integer.parseInt(rest);
             AX = AX - c;*/
             AX = AX - 1;
-            temp +=  "x="+AX;
-            result += IR;
+            temp ="x="+AX+"\n";
+            result=IR;
             //
             PSW = NONE_INTERMIT;
             return result;

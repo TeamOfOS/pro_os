@@ -232,7 +232,7 @@ public class contextController implements Initializable {
 							}
 							usingDeviceQueueView.setItems(deviceVos2);
 							//更新进程执行过程视图
-							contextController.this.processRunningView.appendText(os.cpu.getInstuction()+ "\n");
+							contextController.this.processRunningView.appendText(os.cpu.getInstuction()+"\n");
 							contextController.this.processResultView.appendText(os.cpu.getResultOfProcess()+"\n");
 							//更新系统时钟视图
 							contextController.this.systemTimeTxt.setText(OS.clock.getSystemTime() + "");
