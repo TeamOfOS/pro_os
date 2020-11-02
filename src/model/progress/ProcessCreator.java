@@ -76,6 +76,7 @@ public class ProcessCreator {
             cpu.Ready();
             cpu.dispatch();
             cpu.lock.unlock();
+            //new Thread(cpu).start();
             //为啥github就是没显示我呢
         }
 
