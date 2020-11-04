@@ -16,8 +16,8 @@ public class DelayItem <T> implements Delayed{
         //将时间单位转成纳米
         this.expireTime=TimeUnit.NANOSECONDS.convert(workTime,timeUnit)+System.nanoTime();
     }
-    /**
-     * 返回与此对象相关的剩余延迟时间，以给定的时间单位表示
+    /*
+    返回与此对象相关的剩余延迟时间，以给定的时间单位表示
      */
     @Override
     public long getDelay(TimeUnit unit) {

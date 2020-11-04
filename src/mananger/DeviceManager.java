@@ -106,9 +106,9 @@ public  class  DeviceManager {
             }
         }).start();
     }
-    /**
-     * 请求使用设备
-     * @param
+
+    /*
+    请求使用设备
      */
     public void requestDevice(DeviceRequest deviceRequest){
         try {
@@ -119,8 +119,8 @@ public  class  DeviceManager {
         }
     }
 
-    /**
-     * 设备使用结束，释放资源，请求中断
+    /*
+    设备使用结束，释放资源，请求中断
      */
     private void deviceDone(DeviceOccupy deviceOccupy){
         //释放资源
@@ -143,13 +143,5 @@ public  class  DeviceManager {
         return waitForDevice;
 
     }//初始化
-/**
-    public static void allocateDevice() {
 
-    }//分配设备的方法，参数未知
-
-    public static void recoveredDevice() {
-
-    }//回收设备的方法，参数未知
- **/
 }
