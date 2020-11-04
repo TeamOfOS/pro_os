@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="911.0" prefWidth="1287.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.contextController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1190.0" style="-fx-background-color: #FFF0F5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.contextController">
    <children>
-      <AnchorPane fx:id="user" layoutX="270.0" layoutY="69.0" prefHeight="285.0" prefWidth="290.0">
+      <ImageView fitHeight="65.0" fitWidth="210.0" layoutX="744.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../ui/headline.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="user" layoutX="281.0" layoutY="71.0" prefHeight="285.0" prefWidth="290.0">
          <children>
-            <TitledPane animated="false" layoutX="14.0" layoutY="1.0" prefHeight="285.0" prefWidth="248.0" text="进程执行代码">
+            <TitledPane animated="false" layoutX="14.0" layoutY="1.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行代码">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
                      <children>
-                        <TextArea fx:id="processRunningView" editable="false" layoutX="24.0" layoutY="24.0" prefHeight="230.0" prefWidth="219.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="12.0" />
+                        <ImageView fitHeight="248.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../ui/background.png" />
+                           </image>
+                        </ImageView>
+                        <TextArea fx:id="processRunningView" editable="false" layoutX="72.4" layoutY="84.4" prefHeight="126.0" prefWidth="181.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -54,34 +65,48 @@
             </Label>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="21.0" layoutY="16.0" text="系统时钟：" />
-                  <Text fx:id="systemTimeTxt" layoutX="96.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Label layoutX="21.0" layoutY="16.0" style="-fx-font-weight: bold;" text="系统时钟：" />
+                  <Text fx:id="systemTimeTxt" layoutX="94.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="14.0" layoutY="16.0" text="时间片：" />
-                  <Text fx:id="timesliceTxt" layoutX="74.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Label layoutX="14.0" layoutY="16.0" style="-fx-font-weight: bold;" text="时间片：" />
+                  <Text fx:id="timesliceTxt" layoutX="66.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
                </children>
             </Pane>
             <Pane prefHeight="47.0" prefWidth="75.0">
                <children>
-                  <Button fx:id="startBtn" layoutX="-2.0" layoutY="9.0" mnemonicParsing="false" onAction="#osSwitch" text="启动系统" />
+                  <Button fx:id="startBtn" layoutX="16.0" mnemonicParsing="false" onAction="#osSwitch" style="-fx-background-color: #FFF0F5; -fx-font-weight: bold;" text="启动系统">
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../ui/start.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                </children>
             </Pane>
          </children>
       </HBox>
-      <TitledPane animated="false" layoutX="548.0" layoutY="71.0" prefHeight="285.0" prefWidth="256.0" text="进程执行结果">
+      <TitledPane animated="false" layoutX="569.0" layoutY="71.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行结果">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
                <children>
+                  <ImageView fitHeight="248.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../ui/background.png" />
+                     </image>
+                  </ImageView>
                   <TextArea fx:id="processResultView" editable="false" layoutX="44.0" layoutY="52.0" prefHeight="153.0" prefWidth="200.0" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="40.0" />
-                  <TextArea fx:id="processResultView" editable="false" layoutX="19.0" layoutY="22.0" prefHeight="207.0" prefWidth="200.0" />
+                  <TextArea fx:id="processResultView" editable="false" layoutX="19.0" layoutY="22.0" prefHeight="207.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
          </content>
       </TitledPane>
-      <TreeView fx:id="directoryItemTreeView" layoutX="821.0" layoutY="70.0" prefHeight="287.0" prefWidth="233.0">
+      <TextArea layoutX="883.0" layoutY="70.0" prefHeight="285.0" prefWidth="233.0" style="-fx-font-weight: bold;" text="             文件管理" />
+      <TreeView fx:id="directoryItemTreeView" layoutX="883.0" layoutY="100.0" prefHeight="251.0" prefWidth="233.0" style="-fx-background-color: transparent;">
          <contextMenu>
             <ContextMenu fx:id="rightMenu1">
                <items>
@@ -102,15 +127,20 @@
             </ContextMenu>
          </contextMenu>
       </TreeView>
-      <TextArea layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" text="            用户区内存情况" />
+      <TextArea layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" style="-fx-font-weight: bold;" text="       用户区内存情况" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="943.0" />
       <VBox fx:id="userAreaView" layoutX="22.0" layoutY="98.0" prefHeight="257.0" prefWidth="225.0" />
-      <AnchorPane fx:id="disk" layoutX="710.0" layoutY="409.0" prefHeight="318.0" prefWidth="446.0" style="-fx-border-color: grey;">
+      <AnchorPane fx:id="disk" layoutX="719.0" layoutY="387.0" prefHeight="318.0" prefWidth="446.0">
          <children>
-            <TitledPane animated="false" prefHeight="316.0" prefWidth="446.0" text="磁盘">
+            <TitledPane animated="false" prefHeight="330.0" prefWidth="448.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="磁盘">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="285.0" prefWidth="404.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="310.0" prefWidth="446.0" style="-fx-background-color: #FDEFF1;">
                      <children>
-                        <GridPane fx:id="fatView" layoutX="14.0" layoutY="14.0" prefHeight="245.0" prefWidth="398.0">
+                        <ImageView fitHeight="295.0" fitWidth="446.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../ui/background1.png" />
+                           </image>
+                        </ImageView>
+                        <GridPane fx:id="fatView" layoutX="24.0" layoutY="24.0" prefHeight="245.0" prefWidth="398.0">
                            <children>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -276,5 +306,15 @@
             </TitledPane>
          </children>
       </AnchorPane>
+      <ImageView fitHeight="114.0" fitWidth="188.0" layoutX="972.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../ui/cat.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="96.0" layoutX="864.0" layoutY="765.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../ui/pen.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

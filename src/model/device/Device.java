@@ -8,11 +8,11 @@ public class Device {
     //设备状态
     private int status;
     //占用时间
-    private int timeout;
+    private int elapsedTime;
     //设备名称
     protected String name;
     //设备数量
-    private  volatile AtomicInteger count;
+    private volatile AtomicInteger count;
 
     public Device(int count){
         this.count=new AtomicInteger(count);
@@ -27,11 +27,11 @@ public class Device {
     }
 
     public int getTimeout() {
-        return timeout;
+        return elapsedTime;
     }
 
     public void setTimeout(int timeout) {
-        this.timeout = timeout;
+        this.elapsedTime = timeout;
     }
 
     public String getName() {
@@ -49,6 +49,7 @@ public class Device {
     public void increaseCount(){
         count.getAndIncrement();
     }
+
     public int decreaseCount(){
         return count.getAndDecrement();
     }
