@@ -190,7 +190,7 @@ public class CPU implements Runnable {
         //System.out.println("进入方法");
         if (memory.getRunningPCB() == memory.getHangOutPCB()) {
             IR = "";
-            dispatch();
+            ///dispatch();
             //IR=0;//NOP不执行
             System.out.println("进入空闲进程");
         } else {
