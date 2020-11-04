@@ -49,6 +49,7 @@ public class OS {
             processCreator = new ProcessCreator();
 
             os=new OS();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class OS {
         cpu.init();
         memory.init();
         clock.init();
+
         //fileOperator.init();
     }
 
@@ -86,6 +88,7 @@ public class OS {
      */
 
     static void initDisk() throws IOException {
+        //
         File file = new File("disk.dat");
         FileOutputStream fout = null;
         //判断模拟磁盘是否创建

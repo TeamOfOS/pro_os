@@ -376,6 +376,7 @@ public class contextController implements Initializable {
 			return;
 		}
 		else {
+			diskM.clearDisk();
 			isInitDisk = true;
 		}
 		List<DirectoryItem> dirItems = OS.openOperator.createDirectoryItems();
