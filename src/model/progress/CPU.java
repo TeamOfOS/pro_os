@@ -254,8 +254,9 @@ System.out.println("我用了这个方法吗");
                 //-----修改----
                 String strSR = String.valueOf(IR.charAt(2));
                 SR = Integer.parseInt(strSR);
-                deviceRequest.setWorkTime(SR*5000);
+                deviceRequest.setWorkTime(SR*1000);
                 deviceRequest.setPcb(memory.getRunningPCB());
+                deviceRequest.setLeftTime(SR);
                 System.out.println("deviceName:"+deviceName+"  SR:"+SR+"pcb:"+memory.getRunningPCB());
                 System.out.println("设备的deviceName:"+deviceRequest.getDeviceName()+"  设备的工作时间:"+deviceRequest.getWorkTime()+"设备的pcb:"+deviceRequest.getPcb());
                 deviceManager.requestDevice(deviceRequest);
