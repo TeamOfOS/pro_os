@@ -13,10 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -28,16 +25,14 @@ import model.progress.Clock;
 import model.progress.PCB;
 import model.device.*;
 import os.OS;
+import sun.java2d.cmm.ColorTransform;
 import ui.PCBVo;
 import ui.DeviceVo;
 import ui.UIResources;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.BlockingQueue;
 
 
@@ -202,13 +197,34 @@ public class contextController implements Initializable {
 							List<SubArea> subAreas = OS.memory.getSubAreas();
 							for(SubArea subArea:subAreas){
 								Pane pane = new Pane();
+
+
+
 								pane.setPrefWidth(userAreaView.getPrefHeight());
 								pane.setPrefHeight(userAreaView.getPrefHeight()*subArea.getSize()/512);
+
+								Random rand = new Random();
+								float r = rand.nextFloat();
+								float g = rand.nextFloat();
+								float b = rand.nextFloat();
+								float a = rand.nextFloat();
+								Color randomColor = new Color(r,g,b,a);
 								if(subArea.getStatus()==SubArea.STATUS_BUSY){
 									pane.setStyle("-fx-background-color: grey;");
+
+
+
+									Text text = new Text();
+									text.setText("#" + String.valueOf(subArea.getTaskNumber()));
+									text.setX(pane.getPrefWidth()/2);
+									text.setY(pane.getPrefHeight()/2);
+									pane.getChildren().add(text);
+
 								}else{
 									pane.setStyle("-fx-background-color: green;");
+
 								}
+
 								userAreaView.getChildren().add(pane);
 							}
 

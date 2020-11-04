@@ -341,9 +341,9 @@ disk.printDisk();
             strings[i] = String.valueOf((char)b);
             i++;
         }
-        for(String s:strings){
+        /*for(String s:strings){
             System.out.print(s+" ");
-        }
+        }*/
         processCreator.create(strings);
 
     }

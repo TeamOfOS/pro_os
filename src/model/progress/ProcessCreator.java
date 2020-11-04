@@ -22,6 +22,7 @@ public class ProcessCreator {
         /*申请空白进程块*/
         int pcbSize=memory.getAllPCB().size();
         SubArea subArea=memory.allocate(program,memory);
+        System.out.println("program.length= "+program.length);
      /*   if (pcbSize>=OS.PROCESS_MAX)
             throw  new Exception("当前运行的进程过多，请关闭其他程序后再试");
         *//*申请内存*//*
