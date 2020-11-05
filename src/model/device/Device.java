@@ -26,11 +26,11 @@ public class Device {
         this.status = status;
     }
 
-    public int getTimeout() {
+    public int getElapsedTime() {
         return elapsedTime;
     }
 
-    public void setTimeout(int elapsedTime) {
+    public void setElapsedTime(int elapsedTime) {
         this.elapsedTime = elapsedTime;
     }
 
