@@ -217,7 +217,7 @@ public class contextController implements Initializable {
 									Text text = new Text();
 									text.setText("#" + String.valueOf(subArea.getTaskNumber()));
 									text.setX(pane.getPrefWidth()/2);
-									text.setY(pane.getPrefHeight()/2);
+									text.setY(pane.getPrefHeight()/2 + 5);
 									pane.getChildren().add(text);
 
 								}else{
