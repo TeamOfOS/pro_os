@@ -6,6 +6,8 @@ public class DeviceRequest {
     private PCB pcb;
     //占用时间，以毫秒为单位
     private long workTime;
+    //剩余时间 以个位为单位
+    private int leftTime;
     //设备名称
     private String deviceName;
     public PCB getPcb() {
@@ -30,5 +32,13 @@ public class DeviceRequest {
 
     public void setDeviceName(String deviceName) {
         this.deviceName = deviceName;
+    }
+
+    public int getLeftTime() {
+        return leftTime;
+    }
+
+    public void setLeftTime(int leftTime) {
+        this.leftTime = leftTime;
     }
 }

@@ -9,28 +9,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="830.0" prefWidth="1190.0" style="-fx-background-color: #FFF0F5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.contextController">
    <children>
-      <ImageView fitHeight="65.0" fitWidth="210.0" layoutX="744.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="65.0" fitWidth="210.0" layoutX="763.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../ui/headline.png" />
          </image>
       </ImageView>
-      <AnchorPane fx:id="user" layoutX="281.0" layoutY="71.0" prefHeight="285.0" prefWidth="290.0">
-         <children>
-            <TitledPane animated="false" layoutX="14.0" layoutY="1.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行代码">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
-                     <children>
-                        <ImageView fitHeight="248.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../ui/background.png" />
-                           </image>
-                        </ImageView>
-                        <TextArea fx:id="processRunningView" editable="false" layoutX="72.4" layoutY="84.4" prefHeight="126.0" prefWidth="181.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
-         </children></AnchorPane>
       <AnchorPane fx:id="device" layoutX="22.0" layoutY="387.0" prefHeight="403.0" prefWidth="248.0">
          <children>
             <TableView fx:id="waitingDeviceQueueView" prefHeight="200.0" prefWidth="256.0">
@@ -41,8 +24,9 @@
             </TableView>
             <TableView fx:id="usingDeviceQueueView" layoutY="202.0" prefHeight="200.0" prefWidth="256.0">
               <columns>
-                <TableColumn fx:id="usingDeviceNameCol" prefWidth="132.0" text="设备名称" />
-                <TableColumn fx:id="usingDevicePIDCol" prefWidth="124.0" text="占用的进程" />
+                <TableColumn fx:id="usingDeviceNameCol" maxWidth="1000.0" prefWidth="85.0" text="设备名称" />
+                <TableColumn fx:id="usingDevicePIDCol" prefWidth="85.0" text="占用的进程" />
+                  <TableColumn fx:id="usingDeviceleftTimeCol" prefWidth="85.0" text="剩余时间" />
               </columns>
             </TableView>
          </children></AnchorPane>
@@ -66,13 +50,13 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label layoutX="21.0" layoutY="16.0" style="-fx-font-weight: bold;" text="系统时钟：" />
-                  <Text fx:id="systemTimeTxt" layoutX="94.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
+                  <Text fx:id="systemTimeTxt" layoutX="100.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label layoutX="14.0" layoutY="16.0" style="-fx-font-weight: bold;" text="时间片：" />
-                  <Text fx:id="timesliceTxt" layoutX="66.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
+                  <Text fx:id="timesliceTxt" layoutX="74.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="0" />
                </children>
             </Pane>
             <Pane prefHeight="47.0" prefWidth="75.0">
@@ -90,11 +74,25 @@
             </Pane>
          </children>
       </HBox>
-      <TitledPane animated="false" layoutX="569.0" layoutY="71.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行结果">
+      <TitledPane animated="false" layoutX="313.0" layoutY="71.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行代码">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fitHeight="248.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="258.0" fitWidth="240.0" layoutX="6.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../ui/background.png" />
+                     </image>
+                  </ImageView>
+                  <TextArea fx:id="processRunningView" editable="false" layoutX="72.4" layoutY="84.4" prefHeight="126.0" prefWidth="181.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="620.0" layoutY="71.0" prefHeight="285.0" prefWidth="248.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="进程执行结果">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="150.0" style="-fx-background-color: white;">
+               <children>
+                  <ImageView fitHeight="260.0" fitWidth="248.0" layoutX="-2.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../ui/background.png" />
                      </image>
@@ -105,35 +103,49 @@
             </AnchorPane>
          </content>
       </TitledPane>
-      <TextArea layoutX="883.0" layoutY="70.0" prefHeight="285.0" prefWidth="233.0" style="-fx-font-weight: bold;" text="             文件管理" />
-      <TreeView fx:id="directoryItemTreeView" layoutX="883.0" layoutY="100.0" prefHeight="251.0" prefWidth="233.0" style="-fx-background-color: transparent;">
-         <contextMenu>
-            <ContextMenu fx:id="rightMenu1">
-               <items>
-                  <Menu fx:id="create" mnemonicParsing="false" text="建立">
-                     <items>
-                        <MenuItem fx:id="createDir1" mnemonicParsing="false" onAction="#createDir" text="目录" />
-                        <MenuItem fx:id="createTxt1" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
-                        <MenuItem fx:id="createExe1" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
-                     </items>
-                  </Menu>
-                  <MenuItem fx:id="del" mnemonicParsing="false" onAction="#del" text="删除" />
-                  <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="编辑" />
-                  <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copy" text="复制" />
-                  <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#paste" text="粘贴" />
-                  <MenuItem fx:id="run" mnemonicParsing="false" onAction="#run" text="运行" />
-                  <MenuItem fx:id="changeAttr" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
-               </items>
-            </ContextMenu>
-         </contextMenu>
-      </TreeView>
-      <TextArea layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" style="-fx-font-weight: bold;" text="       用户区内存情况" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="943.0" />
-      <VBox fx:id="userAreaView" layoutX="22.0" layoutY="98.0" prefHeight="257.0" prefWidth="225.0" />
+      <TitledPane animated="false" layoutX="934.0" layoutY="72.0" prefHeight="285.0" prefWidth="233.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="文件管理">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
+               <children>
+                  <TreeView fx:id="directoryItemTreeView" layoutX="-1.0" layoutY="-1.0" prefHeight="260.0" prefWidth="233.0" style="-fx-background-color: transparent;">
+                     <contextMenu>
+                        <ContextMenu fx:id="rightMenu1">
+                           <items>
+                              <Menu fx:id="create" mnemonicParsing="false" text="建立">
+                                 <items>
+                                    <MenuItem fx:id="createDir1" mnemonicParsing="false" onAction="#createDir" text="目录" />
+                                    <MenuItem fx:id="createTxt1" mnemonicParsing="false" onAction="#createTxt" text="普通文件" />
+                                    <MenuItem fx:id="createExe1" mnemonicParsing="false" onAction="#createExe" text="执行文件" />
+                                 </items>
+                              </Menu>
+                              <MenuItem fx:id="del" mnemonicParsing="false" onAction="#del" text="删除" />
+                              <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="编辑" />
+                              <MenuItem fx:id="copy" mnemonicParsing="false" onAction="#copy" text="复制" />
+                              <MenuItem fx:id="paste" mnemonicParsing="false" onAction="#paste" text="粘贴" />
+                              <MenuItem fx:id="run" mnemonicParsing="false" onAction="#run" text="运行" />
+                              <MenuItem fx:id="changeAttr" mnemonicParsing="false" onAction="#changeAttr" text="更改属性" />
+                           </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TreeView>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="22.0" layoutY="71.0" prefHeight="285.0" prefWidth="225.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="用户区内存情况">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <VBox fx:id="userAreaView" prefHeight="261.0" prefWidth="225.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
       <AnchorPane fx:id="disk" layoutX="719.0" layoutY="387.0" prefHeight="318.0" prefWidth="446.0">
          <children>
             <TitledPane animated="false" prefHeight="330.0" prefWidth="448.0" style="-fx-alignment: center; -fx-collapsible: false; -fx-font-weight: bold;" text="磁盘">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="310.0" prefWidth="446.0" style="-fx-background-color: #FDEFF1;">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="310.0" prefWidth="446.0" style="-fx-background-color: white;">
                      <children>
                         <ImageView fitHeight="295.0" fitWidth="446.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -306,12 +318,12 @@
             </TitledPane>
          </children>
       </AnchorPane>
-      <ImageView fitHeight="114.0" fitWidth="188.0" layoutX="972.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="114.0" fitWidth="188.0" layoutX="943.0" layoutY="717.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../ui/cat.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="54.0" fitWidth="96.0" layoutX="864.0" layoutY="765.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="54.0" fitWidth="96.0" layoutX="838.0" layoutY="765.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../ui/pen.png" />
          </image>

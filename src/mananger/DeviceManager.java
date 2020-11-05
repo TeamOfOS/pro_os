@@ -41,6 +41,7 @@ public  class  DeviceManager {
             while(OS.launched){
                 try {
                     DeviceOccupy deviceOccupy = usingDevices.take();
+                   // deviceOccupy.setLeftTime(deviceOccupy.getLeftTime()-1);
                     System.out.println(deviceOccupy.getDeviceName()+"设备使用完毕");
                     deviceDone(deviceOccupy);
                 } catch (InterruptedException e) {
@@ -55,6 +56,8 @@ public  class  DeviceManager {
                     DeviceRequest deviceRequest=waitForDevice.take();
                     DeviceOccupy deviceOccupy=new DeviceOccupy(deviceRequest.getPcb(),deviceRequest.getWorkTime(), TimeUnit.MILLISECONDS);
                     deviceOccupy.setDeviceName(deviceRequest.getDeviceName());
+                    deviceOccupy.setLeftTime((int)(deviceOccupy.getWorkTime()/1000)+1);
+                    //
                     switch (deviceRequest.getDeviceName()){
                         case "A":
                             //如果有设备空闲就使用设备
