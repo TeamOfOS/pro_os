@@ -30,8 +30,8 @@ public class Device {
         return elapsedTime;
     }
 
-    public void setTimeout(int timeout) {
-        this.elapsedTime = timeout;
+    public void setTimeout(int elapsedTime) {
+        this.elapsedTime = elapsedTime;
     }
 
     public String getName() {
