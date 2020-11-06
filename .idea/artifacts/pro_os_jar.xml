@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="pro_os:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pro_os_jar</output-path>
+    <root id="root">
+      <element id="archive" name="pro_os.jar">
+        <element id="module-output" name="pro_os" />
+      </element>
+    </root>
+  </artifact>
+</component>

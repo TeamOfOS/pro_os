@@ -214,7 +214,7 @@ public class contextController implements Initializable {
 								float a = rand.nextFloat();
 								Color randomColor = new Color(r,g,b,a);
 								if(subArea.getStatus()==SubArea.STATUS_BUSY){
-									pane.setStyle("-fx-background-color: grey;");
+									pane.setStyle("-fx-background-color: #FFC0CB;");
 
 
 
@@ -225,7 +225,7 @@ public class contextController implements Initializable {
 									pane.getChildren().add(text);
 
 								}else{
-									pane.setStyle("-fx-background-color: green;");
+									pane.setStyle("-fx-background-color:#D8BFD8;");
 
 								}
 
@@ -696,11 +696,11 @@ public class contextController implements Initializable {
 	for(int i=0;i<128;i++){
 		Pane pane = (Pane)fatView.getChildren().get(i);
 		if(fat[i]!=0){
-			pane.setStyle("-fx-background-color: red;-fx-border-color: #EEEEBB");
+			pane.setStyle("-fx-background-color: #FFC0CB;-fx-border-color: #EEEEBB");
 
 		}
 		else {
-			pane.setStyle("-fx-background-color:blue;-fx-border-color: #EEEEBB");
+			pane.setStyle("-fx-background-color:#D8BFD8;-fx-border-color: #EEEEBB");
 		}
 	}
 	}
