@@ -30,9 +30,6 @@ public class CPU implements Runnable {
     public static final int NORMAL_INTERMIT = 2;  //正常中断
     public static final int EQUIP_INTERMIT = 3;   //设备中断
 
-    private int nextIR;
-    private int OP;
-    private int DR;
     private int SR;
     private String result = "hangdOutProcess......"+"\n";
     private String  temp="NOP";
