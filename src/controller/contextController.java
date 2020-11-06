@@ -111,6 +111,8 @@ public class contextController implements Initializable {
 	@FXML
 	private TableColumn usingDeviceNameCol;
 	@FXML
+	private TableColumn usingDeviceleftTimeCol;
+	@FXML
 	private TableColumn usingDevicePIDCol;
 
 	@FXML
@@ -124,6 +126,8 @@ public class contextController implements Initializable {
 	private OS os;
 	private Disk diskM;
 	private UpdateUIThread updateUIThread;
+
+	private static boolean isInitDisk = false;
 
 
 
@@ -173,7 +177,7 @@ public class contextController implements Initializable {
 	public void closeOs() throws IOException {
 		os.launched = false;
 		os.close();
-		diskM.clearDisk();
+		//diskM.clearDisk();
 	}
 
 	/**
@@ -185,12 +189,12 @@ public class contextController implements Initializable {
 		@Override
 		public void run() {
 			while (os.launched) {
+
 				try {
+
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-
-
 							//更新用户区内存视图
 							userAreaView.getChildren().removeAll(userAreaView.getChildren());
 							System.out.println("更新内存区");
@@ -217,7 +221,7 @@ public class contextController implements Initializable {
 									Text text = new Text();
 									text.setText("#" + String.valueOf(subArea.getTaskNumber()));
 									text.setX(pane.getPrefWidth()/2);
-									text.setY(pane.getPrefHeight()/2);
+									text.setY(pane.getPrefHeight()/2 + 5);
 									pane.getChildren().add(text);
 
 								}else{
@@ -242,7 +246,8 @@ public class contextController implements Initializable {
 							Queue<DeviceOccupy> usingDevices=os.cpu.getDeviceManager().getUsingDevices();
 							ObservableList<DeviceVo> deviceVos2=FXCollections.observableArrayList();
 							for (DeviceOccupy deviceOccupy:usingDevices){
-								DeviceVo deviceVo=new DeviceVo(deviceOccupy.getDeviceName(),deviceOccupy.getObj().getPID());
+									deviceOccupy.setLeftTime(deviceOccupy.getLeftTime()-1);
+								DeviceVo deviceVo=new DeviceVo(deviceOccupy.getDeviceName(),deviceOccupy.getObj().getPID(),deviceOccupy.getLeftTime());
 								deviceVos2.add(deviceVo);
 							}
 							usingDeviceQueueView.setItems(deviceVos2);
@@ -265,6 +270,7 @@ public class contextController implements Initializable {
 								PCBVo pcbVo = new PCBVo(pcb);
 								pcbVos.add(pcbVo);
 							}
+
 							ObservableList<PCBVo> datas = FXCollections.observableList(pcbVos);
 							pcbQueueView.setItems(datas);
 
@@ -299,11 +305,13 @@ public class contextController implements Initializable {
 	public void initWaingDeviceQueueView(){
 		waitingDeviceNameCol.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
 		waitingDevicePIDCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
+
 	}
 	public void initUsingDeviceQueueView(){
 		usingDeviceNameCol.setCellValueFactory(new PropertyValueFactory<>("deviceName"));
 		usingDevicePIDCol.setCellValueFactory(new PropertyValueFactory<>("PID"));
 
+		usingDeviceleftTimeCol.setCellValueFactory(new PropertyValueFactory<>("leftTime"));
 	}
 
 	public void initComponent() throws Exception {
@@ -364,6 +372,13 @@ public class contextController implements Initializable {
 	public void initDirectoryItemTree() throws IOException {
 
 
+		if (isInitDisk ==true){
+			return;
+		}
+		else {
+			diskM.clearDisk();
+			isInitDisk = true;
+		}
 		List<DirectoryItem> dirItems = OS.openOperator.createDirectoryItems();
 		DirectoryItem root = dirItems.get(0);
 		TreeItem<DirectoryItem> rootTreeItem = new TreeItem(root);
@@ -376,6 +391,7 @@ public class contextController implements Initializable {
 		//System.out.println("文本："+rootTreeItem.getValue().getFileContext());
 		//diskM.eidtOp(rootTreeItem,rootTreeItem.getValue().getFileContext());
 		//updateFatView();
+
 		for(DirectoryItem t:dirItems){
 
 			if(!t.equals(root)&&t.equals(random)){
