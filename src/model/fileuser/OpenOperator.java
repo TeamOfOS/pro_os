@@ -336,7 +336,7 @@ disk.printDisk();
     //菜单运行操作
     public boolean run() throws Exception {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
-         if(sec.getValue().getFileContext()==null){
+         if(sec.getValue().getFileContext().equals(null)){
              System.out.println("内容为空，无法放入");
              return false;
          }
