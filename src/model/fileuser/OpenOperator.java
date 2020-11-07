@@ -7,6 +7,7 @@ import controller.EditController;
 import controller.contextController;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TreeItem;
+import javafx.scene.text.Text;
 import model.disk.Disk;
 import model.progress.CPU;
 import model.progress.PCB;
@@ -31,6 +32,7 @@ public class OpenOperator {
      private OS os;
      private CPU cpu;
      private ProcessCreator processCreator = new ProcessCreator();
+     static boolean isFirstAll = true;
      /*
      构造方法初始化
       */
@@ -332,8 +334,12 @@ disk.printDisk();
     }
 
     //菜单运行操作
-    public void run() throws Exception {
+    public boolean run() throws Exception {
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
+         if(sec.getValue().getFileContext()==null){
+             System.out.println("内容为空，无法放入");
+             return false;
+         }
         System.out.println(sec.getValue().getFileName()+" 放入内存啦");
         String[] strings = new String[sec.getValue().getFileContext().length()];
         int i=0;
@@ -346,6 +352,7 @@ disk.printDisk();
         }*/
         processCreator.create(strings);
 
+        return true;
     }
 
 
@@ -476,8 +483,14 @@ disk.printDisk();
              changFileAttrController.getSecondStage().setTitle("更改文件属性");
              changeDirAttrController.getDirAttrStage().setTitle("更改文件属性");
          }
-        changFileAttrController.getChoiceOfAttr().getItems().addAll("普通文本(.t)","执行文件（.e)");
-        changFileAttrController.getChoiceOfReadAttr().getItems().addAll("只读文件","可读可写文件");
+        if (isFirstAll){
+            changFileAttrController.getChoiceOfAttr().getItems().addAll("普通文本(.t)","执行文件（.e)");
+            changFileAttrController.getChoiceOfReadAttr().getItems().addAll("只读文件","可读可写文件");
+            isFirstAll=false;
+        }
+        else{
+
+        }
          if (sec.getValue().getTypeOfFile()==1||sec.getValue().getTypeOfFile()==2){
              changFileAttrController.getTextOfFileName().setText(secFileName);
              if(isOnlyRead){
@@ -510,14 +523,21 @@ disk.printDisk();
          TreeItem<DirectoryItem> sec = contextControllers.getSeclectNode();
          DirectoryItem item = sec.getValue();
          List<TreeItem<DirectoryItem>> secChildren = sec.getParent().getChildren();
-         for(TreeItem<DirectoryItem> d:secChildren){
-             if ((d.getValue().getTypeOfFile()==1&&changFileAttrController.isTxt())||(d.getValue().getTypeOfFile()==2&&!changFileAttrController.isTxt())){
-                 if(d.getValue().getactFileName().equals(changFileAttrController.getSecFileName())){
-                     System.out.println("有重复命名失败");
-                     return 0;
-                 }
-             }
+         if(item.getactFileName().equals(changFileAttrController.getSecFileName())&&
+                 (item.getTypeOfFile()==1&&changFileAttrController.isTxt()||item.getTypeOfFile()==2&&!changFileAttrController.isTxt())){
 
+
+        }
+         else {
+             for(TreeItem<DirectoryItem> d:secChildren){
+                 if ((d.getValue().getTypeOfFile()==1&&changFileAttrController.isTxt())||(d.getValue().getTypeOfFile()==2&&!changFileAttrController.isTxt())){
+                     if(d.getValue().getactFileName().equals(changFileAttrController.getSecFileName())){
+                         System.out.println("有重复命名失败");
+                         return 0;
+                     }
+                 }
+
+             }
          }
          //测试
         for (int i=0;i<directoryItems.size();i++){

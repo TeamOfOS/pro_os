@@ -352,6 +352,11 @@ public class contextController implements Initializable {
 				 		copy.setDisable(true);
 
 					}
+				 	else if(secItem.getValue().getTypeOfFile() == 1){
+						//run.setDisable(false);
+						edit.setDisable(false);
+						copy.setDisable(false);
+					}
 				 	else {
 						run.setDisable(false);
 						edit.setDisable(false);
@@ -678,7 +683,12 @@ public class contextController implements Initializable {
 
 	//菜单运行操作
 	public void run() throws Exception {
-		os.openOperator.run();
+		if (os.openOperator.run()){
+
+		}
+		{
+			alert.setContentText("内容为空，没有要执行内容");alert.show();
+		}
 		//缺少将文件放入内存的方法
 	}
 
